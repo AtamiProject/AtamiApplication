@@ -1,0 +1,4 @@
+android/ejemplo/atami/BuildConfig.java
+ android.ejemplo.atami.BuildConfig
+android/ejemplo/atami/MainActivity.java
+ android.ejemplo.atami.MainActivity
