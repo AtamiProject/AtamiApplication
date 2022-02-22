@@ -13,7 +13,7 @@ public class PermisosMicro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.permisosMicro);
+        setContentView(R.layout.permisos_micro);
     }
 
     public void darPerMicro(View v) {
