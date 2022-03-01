@@ -3,6 +3,7 @@
     package="android.ejemplo.atami">
     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="true" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -11,20 +12,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Atami">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Permisos.PermisosMicro">
-        </activity>
+        <activity android:name=".Permisos.PermisosMicro" />
         <activity android:name=".Permisos.PermisosAlmacenaje" />
+        <activity android:name=".principal.PantallaPrincipal" />
     </application>
 
 </manifest>

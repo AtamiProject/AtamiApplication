@@ -24,6 +24,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:tint="@color/white" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="462dp"
+            android:layout_height="59dp"
+            android:background="@color/darkRed"
+            android:fontFamily="@font/rhodium_libre"
+            android:includeFontPadding="false"
+            android:text="Atami"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

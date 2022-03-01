@@ -49,7 +49,7 @@ public class PermisosAlmacenaje extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(PermisosAlmacenaje.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
                 //MOVER SIGUIENTE ACTIVITY
-                intent = new Intent(this, PantallaPrincipal.class); //permisos micro
+                intent = new Intent(this, PermisosMicro.class); //permisos micro
                 startActivity(intent);
             } else {
                 Toast.makeText(PermisosAlmacenaje.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();

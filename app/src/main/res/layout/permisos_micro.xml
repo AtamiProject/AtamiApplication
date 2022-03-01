@@ -40,7 +40,7 @@
         android:backgroundTint="@color/darkRed"
         android:fontFamily="@font/rhodium_libre"
         android:letterSpacing="0.3"
-        android:onClick="darPermisos"
+        android:onClick="darPermisos2"
         android:text="Configurar"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
