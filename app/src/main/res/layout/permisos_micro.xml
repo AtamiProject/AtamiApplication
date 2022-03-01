@@ -6,15 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".Permisos.PermisosMicro">
 
-    <Button
-        android:id="@+id/BotonOtorgarPermisosAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="darPerMicro"
-        android:text="Configurar"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="273dp"
+        android:layout_height="161dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/horizontal_on_white_by_logaster"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="363dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:gravity="center"
+        android:includeFontPadding="true"
+        android:text="Para habilitar la función de comandos por voz es necesario que otorge permisos de microfono a Atami."
+        android:textColor="@color/darkRed"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:backgroundTint="@color/darkRed"
+        android:fontFamily="@font/rhodium_libre"
+        android:letterSpacing="0.3"
+        android:onClick="darPermisos"
+        android:text="Configurar"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info" />
+
+    <TextView
+        android:id="@+id/permisos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="92dp"
+        android:text="Permisos"
+        android:textColor="@color/darkRed"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logo" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
