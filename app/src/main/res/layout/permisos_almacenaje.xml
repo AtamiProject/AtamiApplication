@@ -43,6 +43,7 @@
         android:letterSpacing="0.3"
         android:onClick="darPermisos"
         android:text="Configurar"
+        android:textColor="@color/white"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
