@@ -34,9 +34,9 @@ public class PermisosMicro extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(PermisosMicro.this, permission) == PackageManager.PERMISSION_DENIED) {
             // Requesting the permission
             ActivityCompat.requestPermissions(PermisosMicro.this, new String[] { permission }, requestCode);
-        } else { //hace falta else?
+        } /*else { //hace falta else?
             Toast.makeText(PermisosMicro.this, "Permission already granted", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     @Override

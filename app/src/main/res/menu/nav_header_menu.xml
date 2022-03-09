@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/item1"
-        android:title="Perfil" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/perfil"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="Perfil"/>
 
-    <item
-        android:id="@+id/item2"
-        android:title="Gráficos" />
+        <item
+            android:id="@+id/graficos"
+            android:icon="@drawable/ic_baseline_show_chart_24"
+            android:title="Gráficos" />
 
-    <item
-        android:id="@+id/item3"
-        android:title="Calendario" />
+        <item
+            android:id="@+id/calendario"
+            android:icon="@drawable/ic_baseline_calendar_month_24"
+            android:title="Calendario" />
 
-    <item
-        android:id="@+id/item4"
-        android:title="Prémium" />
+        <item
+            android:id="@+id/premium"
+            android:icon="@drawable/ic_baseline_premium_24"
+            android:title="Prémium" />
 
-    <item
-        android:id="@+id/item5"
-        android:title="Cuentas" />
+        <item
+            android:id="@+id/cuentas"
+            android:icon="@drawable/ic_baseline_cuentas_24"
+            android:title="Cuentas" />
+    </group>
 
 </menu>
