@@ -1,8 +1,10 @@
 package android.ejemplo.atami.principal;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.ejemplo.atami.PopUpWindow.PopUpWindow;
 import android.ejemplo.atami.R;
+import android.graphics.Insets;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -17,7 +19,6 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
