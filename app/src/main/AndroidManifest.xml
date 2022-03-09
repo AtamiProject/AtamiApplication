@@ -23,5 +23,7 @@
         <activity android:name=".Permisos.PermisosMicro" />
         <activity android:name=".Permisos.PermisosAlmacenaje" />
         <activity android:name=".principal.PantallaPrincipal" />
+        <activity android:name=".PopUpWindow.PopUpWindow"
+            android:theme="@style/Theme.Atami.Custom"/>
     </application>
 </manifest>

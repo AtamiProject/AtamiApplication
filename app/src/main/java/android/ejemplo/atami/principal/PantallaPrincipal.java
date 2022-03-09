@@ -1,5 +1,7 @@
 package android.ejemplo.atami.principal;
 
+import android.content.Intent;
+import android.ejemplo.atami.PopUpWindow.PopUpWindow;
 import android.ejemplo.atami.R;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -28,7 +30,7 @@ public class PantallaPrincipal extends AppCompatActivity {
     }
 
     public void addMoneyOnClick(View _){
-
+            startActivity(new Intent(PantallaPrincipal.this, PopUpWindow.class));
     }
 
     @Override
