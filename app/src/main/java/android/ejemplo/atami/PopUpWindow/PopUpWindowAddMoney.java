@@ -9,13 +9,12 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
-public class PopUpWindow extends Activity {
-    static boolean active = false;
+public class PopUpWindowAddMoney extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.addmonetlayout);
+        setContentView(R.layout.addmoneylayout);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -32,18 +31,4 @@ public class PopUpWindow extends Activity {
 
     }
 
-    public boolean getActive(){
-        return active;
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-        active = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        active = false;
-    }
 }

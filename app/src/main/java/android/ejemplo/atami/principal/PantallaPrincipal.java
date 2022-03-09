@@ -1,10 +1,9 @@
 package android.ejemplo.atami.principal;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.ejemplo.atami.PopUpWindow.PopUpWindow;
+import android.ejemplo.atami.PopUpWindow.PopUpWindowAddMoney;
+import android.ejemplo.atami.PopUpWindow.PopUpWindowTakeOut;
 import android.ejemplo.atami.R;
-import android.graphics.Insets;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -31,7 +30,10 @@ public class PantallaPrincipal extends AppCompatActivity {
     }
 
     public void addMoneyOnClick(View _){
-            startActivity(new Intent(PantallaPrincipal.this, PopUpWindow.class));
+            startActivity(new Intent(PantallaPrincipal.this, PopUpWindowAddMoney.class));
+    }
+    public void takeOutMoneyOnClick(View _){
+        startActivity(new Intent(PantallaPrincipal.this, PopUpWindowTakeOut.class));
     }
 
     @Override

@@ -23,7 +23,10 @@
         <activity android:name=".Permisos.PermisosMicro" />
         <activity android:name=".Permisos.PermisosAlmacenaje" />
         <activity android:name=".principal.PantallaPrincipal" />
-        <activity android:name=".PopUpWindow.PopUpWindow"
+        <activity android:name=".PopUpWindow.PopUpWindowAddMoney"
+            android:theme="@style/Theme.Atami.Custom"
+            android:launchMode="singleTask"/>
+        <activity android:name=".PopUpWindow.PopUpWindowTakeOut"
             android:theme="@style/Theme.Atami.Custom"
             android:launchMode="singleTask"/>
     </application>
