@@ -4,6 +4,7 @@
     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="true" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -29,5 +30,11 @@
         <activity android:name=".PopUpWindow.PopUpWindowTakeOut"
             android:theme="@style/Theme.Atami.Custom"
             android:launchMode="singleTask"/>
+        <activity android:name=".perfil.Perfil" />
+        <activity android:name=".graficos.Graficos" />
+        <activity android:name=".premium.Premium" />
+        <activity android:name=".calendario.Calendario" />
+        <activity android:name=".cuentas.Cuentas" />
     </application>
+
 </manifest>
