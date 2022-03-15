@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".permisos.PermisosMicro" />
+
         <activity android:name=".permisos.PermisosAlmacenaje" />
         <activity android:name=".principal.PantallaPrincipal" />
         <activity android:name=".popUpWindow.PopUpWindowAddMoney"
@@ -35,6 +36,9 @@
         <activity android:name=".premium.Premium" />
         <activity android:name=".calendario.Calendario" />
         <activity android:name=".cuentas.Cuentas" />
+        <activity android:name=".operaciones.addMoney.AddMoneyActivity" />
+        <activity android:name=".operaciones.takeOut.TakeOutMoneyActivity" />
+        <activity android:name=".operaciones.OperacionPorVoz" />
     </application>
 
 </manifest>
