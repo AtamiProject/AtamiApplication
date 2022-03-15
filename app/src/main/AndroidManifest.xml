@@ -21,13 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Permisos.PermisosMicro" />
-        <activity android:name=".Permisos.PermisosAlmacenaje" />
+        <activity android:name=".permisos.PermisosMicro" />
+        <activity android:name=".permisos.PermisosAlmacenaje" />
         <activity android:name=".principal.PantallaPrincipal" />
-        <activity android:name=".PopUpWindow.PopUpWindowAddMoney"
+        <activity android:name=".popUpWindow.PopUpWindowAddMoney"
             android:theme="@style/Theme.Atami.Custom"
             android:launchMode="singleTask"/>
-        <activity android:name=".PopUpWindow.PopUpWindowTakeOut"
+        <activity android:name=".popUpWindow.PopUpWindowTakeOut"
             android:theme="@style/Theme.Atami.Custom"
             android:launchMode="singleTask"/>
         <activity android:name=".perfil.Perfil" />

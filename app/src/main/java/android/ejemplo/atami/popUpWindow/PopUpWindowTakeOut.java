@@ -1,4 +1,4 @@
-package android.ejemplo.atami.PopUpWindow;
+package android.ejemplo.atami.popUpWindow;
 
 import android.app.Activity;
 import android.ejemplo.atami.R;
@@ -20,7 +20,7 @@ public class PopUpWindowTakeOut extends Activity {
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*.8),(int)(height*.3));
+        getWindow().setLayout((int)(width*.8),(int)(height*.4));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;

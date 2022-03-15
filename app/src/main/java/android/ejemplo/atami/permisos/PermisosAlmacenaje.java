@@ -1,11 +1,9 @@
-package android.ejemplo.atami.Permisos;
+package android.ejemplo.atami.permisos;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.ejemplo.atami.R;
-import android.ejemplo.atami.principal.PantallaPrincipal;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
