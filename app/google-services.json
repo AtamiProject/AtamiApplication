@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64578880306",
+    "project_id": "atamiproyect",
+    "storage_bucket": "atamiproyect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64578880306:android:a8a6158a13edf0ec9fcd2b",
+        "android_client_info": {
+          "package_name": "android.ejemplo.atami"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64578880306-aq2419us3kage5fgh9058jlk0l5tcgm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx0F5Y3to3Azao0_KpBqFdPIzITz8igj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64578880306-aq2419us3kage5fgh9058jlk0l5tcgm3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
