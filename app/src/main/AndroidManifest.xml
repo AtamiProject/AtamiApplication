@@ -29,9 +29,6 @@
         <activity android:name=".popUpWindow.PopUpWindowAddMoney"
             android:theme="@style/Theme.Atami.Custom"
             android:launchMode="singleTask"/>
-        <activity android:name=".popUpWindow.PopUpWindowTakeOut"
-            android:theme="@style/Theme.Atami.Custom"
-            android:launchMode="singleTask"/>
         <activity android:name=".perfil.Perfil" />
         <activity android:name=".graficos.Graficos" />
         <activity android:name=".premium.Premium" />
