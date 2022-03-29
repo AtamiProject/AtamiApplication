@@ -1,15 +1,21 @@
 package android.ejemplo.atami.popUpWindow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.operaciones.OperacionPorVoz;
+import android.ejemplo.atami.operaciones.addMoney.AddMoneyActivity;
+import android.ejemplo.atami.permisos.PermisosAlmacenaje;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
 public class PopUpWindowAddMoney extends Activity {
+    Intent intent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +35,15 @@ public class PopUpWindowAddMoney extends Activity {
 
         getWindow().setAttributes(params);
 
+    }
+
+    public void addMoneyManual(View _){
+        intent = new Intent(this, AddMoneyActivity.class);
+        startActivity(intent);
+    }
+    public void addMoneyPorVoz(View _){
+        intent = new Intent(this, OperacionPorVoz.class);
+        startActivity(intent);
     }
 
 }

@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/popupaddmoney">
+    android:background="@drawable/popupaddmoney"
+    tools:context=".popUpWindow.PopUpWindowTakeOut">
 
     <Button
         android:id="@+id/button2"
         android:layout_width="270dp"
         android:layout_height="60dp"
         android:background="@drawable/buttonshapemoney"
+        android:onClick="takeOutPorVoz"
         android:text="Por voz"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
@@ -22,13 +24,14 @@
         app:layout_constraintVertical_bias="0.189" />
 
     <Button
-        android:textColor="@color/white"
-        android:textSize="30sp"
+        android:id="@+id/button3"
         android:layout_width="270dp"
         android:layout_height="60dp"
         android:background="@drawable/buttonshapemoney"
-        android:id="@+id/button3"
+        android:onClick="takeOutManual"
         android:text="manual"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
