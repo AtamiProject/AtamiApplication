@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Permisos.PermisosMicro">
+    tools:context=".permisos.PermisosMicro">
 
     <ImageView
         android:id="@+id/logo"
@@ -42,6 +42,7 @@
         android:letterSpacing="0.3"
         android:onClick="darPermisos2"
         android:text="Configurar"
+        android:textColor="@color/white"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

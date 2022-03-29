@@ -1,4 +1,4 @@
-package android.ejemplo.atami.Permisos;
+package android.ejemplo.atami.permisos;
 
 import android.Manifest;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.ejemplo.atami.R;
 import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,9 +33,9 @@ public class PermisosMicro extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(PermisosMicro.this, permission) == PackageManager.PERMISSION_DENIED) {
             // Requesting the permission
             ActivityCompat.requestPermissions(PermisosMicro.this, new String[] { permission }, requestCode);
-        } else { //hace falta else?
+        } /*else { //hace falta else?
             Toast.makeText(PermisosMicro.this, "Permission already granted", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     @Override

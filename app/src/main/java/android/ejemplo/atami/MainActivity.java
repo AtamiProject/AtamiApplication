@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.ejemplo.atami.Permisos.PermisosAlmacenaje;
+import android.ejemplo.atami.permisos.PermisosAlmacenaje;
 import android.ejemplo.atami.auth.AuthActivity2;
 import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
