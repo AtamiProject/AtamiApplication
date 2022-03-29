@@ -4,16 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".premium.Premium">
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="368dp"
-        android:text="premium"
+    >
+    <!--tools:context=".premium.Premium"-->
+    <Button
+        android:id="@+id/premium"
+        android:layout_width="159dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/buttonshapemoney"
+        android:letterSpacing="0.1"
+        android:onClick="pantallaPago"
+        android:text="¡Quiero ser premium!"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+    <TextView
+        android:id="@+id/atami2"
+        android:layout_width="415dp"
+        android:layout_height="62dp"
+        android:background="@color/darkRed"
+        android:fontFamily="@font/rhodium_libre"
+        android:includeFontPadding="false"
+        android:text="Atami"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:letterSpacing="0.1"
+        android:text="@string/hacersePremium"
+        android:textColor="@color/darkRed"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/atami2" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="310dp"
+        android:layout_height="246dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
+        android:letterSpacing="0.1"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/ventajasPremium"
+        android:textColor="@color/darkRed"
+        android:textSize="16dp"
+        android:justificationMode="inter_word"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tw1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
