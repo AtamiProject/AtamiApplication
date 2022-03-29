@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/atami"
             android:layout_width="415dp"
             android:layout_height="62dp"
             android:background="@color/darkRed"
@@ -78,6 +78,7 @@
         android:layout_height="match_parent"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_header_menu"
+        app:itemTextColor="@color/darkRed"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"/>
 

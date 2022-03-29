@@ -2,4 +2,11 @@
     <string name="app_name">Atami</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="hacersePremium"><u>¡HAZTE PREMIUM AHORA!</u></string>
+    <string name="ventajasPremium">
+        "\u2022 Dile adiós a la publicidad. \n\u2022 Crea 2 cuentas más que podrás gestionar junto con la actual: \n\t\t\u2022 Añade más tarjetas de crédito. \n\t\t\u2022 Añade cuentas de ahorro. \n\u2022 Recibe notificaciones cuando tus tarjetas esten a punto de caducar. \n\u2022 Y lo más importante: Apoya a nuestro proyecto :)"
+    </string>
+    <string name="graciasPremium"><u>¡GRACIAS POR APOYAR NUESTRA APP!</u></string>
+    <string name="agradecimiento"><u>Hola:</u>"\nMuchas gracias por formar parte de Atami como usuario premium. Te recordamos las ventajas que tienes por ser premium:\u2022 Dile adiós a la publicidad. \n\u2022 Crea 2 cuentas más que podrás gestionar junto con la actual: \n\t\t\u2022 Añade más tarjetas de crédito. \n\t\t\u2022 Añade cuentas de ahorro. \n\u2022 Recibe notificaciones cuando tus tarjetas esten a punto de caducar. \n\u2022 Y lo más importante: Apoya a nuestro proyecto :)"
+    </string>
 </resources>
