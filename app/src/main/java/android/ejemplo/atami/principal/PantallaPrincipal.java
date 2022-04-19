@@ -1,7 +1,9 @@
 package android.ejemplo.atami.principal;
 
 import android.content.Intent;
-import android.ejemplo.atami.Permisos.PermisosMicro;
+import android.ejemplo.atami.popUpWindow.PopUpWindowAddMoney;
+//import android.ejemplo.atami.PopUpWindow.PopUpWindowTakeOut;
+import android.ejemplo.atami.popUpWindow.PopUpWindowTakeOut;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.calendario.Calendario;
 import android.ejemplo.atami.cuentas.Cuentas;
@@ -12,7 +14,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -68,6 +69,13 @@ public class PantallaPrincipal extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void addMoneyOnClick(View _){
+        startActivity(new Intent(PantallaPrincipal.this, PopUpWindowAddMoney.class));
+    }
+    public void takeOutMoneyOnClick(View _){
+        startActivity(new Intent(PantallaPrincipal.this, PopUpWindowTakeOut.class));
     }
 
     public void mostrarMenu(View _) {

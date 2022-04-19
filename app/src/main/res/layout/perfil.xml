@@ -7,11 +7,131 @@
     tools:context=".perfil.Perfil">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Perfil"
+        android:id="@+id/atami"
+        android:layout_width="415dp"
+        android:layout_height="62dp"
+        android:background="@color/darkRed"
+        android:fontFamily="@font/rhodium_libre"
+        android:includeFontPadding="false"
+        android:text="Atami"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="312dp" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="------"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombreLabel" />
+
+    <TextView
+        android:id="@+id/nombreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="Nombre:"
+        android:textColor="@color/darkRed"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/atami" />
+
+    <TextView
+        android:id="@+id/apellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="-----"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apellidosLabel" />
+
+    <TextView
+        android:id="@+id/apellidosLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="Apellidos:"
+        android:textColor="@color/darkRed"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombre" />
+
+    <TextView
+        android:id="@+id/correoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="Correo:"
+        android:textColor="@color/darkRed"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apellidos" />
+
+    <TextView
+        android:id="@+id/correo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="------"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/correoLabel" />
+
+    <Button
+        android:id="@+id/changepsswd"
+        android:layout_width="159dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/buttonshapemoney"
+        android:letterSpacing="0.1"
+        android:text="Cambiar contraseña"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/correo" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="159dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/buttonshapemoney"
+        android:letterSpacing="0.1"
+        android:text="Cerrar Sesión"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

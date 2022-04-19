@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.ejemplo.atami">
-
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:required="true" />
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="true" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -14,25 +12,33 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Permisos.PermisosMicro" />
-        <activity android:name=".Permisos.PermisosAlmacenaje" />
+        <activity android:name=".permisos.PermisosMicro" />
+
+        <activity android:name=".permisos.PermisosAlmacenaje" />
         <activity android:name=".principal.PantallaPrincipal" />
+        <activity android:name=".popUpWindow.PopUpWindowAddMoney"
+            android:theme="@style/Theme.Atami.Custom"
+            android:launchMode="singleTask"/>
+        <activity android:name=".popUpWindow.PopUpWindowTakeOut"
+            android:theme="@style/Theme.Atami.Custom"
+            android:launchMode="singleTask"/>
         <activity android:name=".perfil.Perfil" />
         <activity android:name=".graficos.Graficos" />
         <activity android:name=".premium.Premium" />
         <activity android:name=".calendario.Calendario" />
         <activity android:name=".cuentas.Cuentas" />
+        <activity android:name=".operaciones.addMoney.AddMoneyActivity" />
+        <activity android:name=".operaciones.takeOut.TakeOutMoneyActivity" />
+        <activity android:name=".operaciones.OperacionPorVoz" />
     </application>
 
 </manifest>

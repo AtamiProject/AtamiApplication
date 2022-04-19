@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Permisos.PermisosAlmacenaje">
+    tools:context=".permisos.PermisosAlmacenaje">
 
     <ImageView
         android:id="@+id/logo"
@@ -43,8 +43,8 @@
         android:letterSpacing="0.3"
         android:onClick="darPermisos"
         android:text="Configurar"
-        android:textAllCaps="false"
         android:textColor="@color/white"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info" />
