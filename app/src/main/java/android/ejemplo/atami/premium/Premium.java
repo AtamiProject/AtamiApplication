@@ -13,7 +13,7 @@ public class Premium extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.premium2);
+        setContentView(R.layout.premium);
 
         button = (Button) findViewById(R.id.premium);
     }
