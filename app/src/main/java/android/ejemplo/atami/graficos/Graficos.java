@@ -27,18 +27,18 @@ public class Graficos extends AppCompatActivity {
         PieChart pieChart = (PieChart) findViewById(R.id.piechart_view);
 
         ArrayList<PieEntry> dinero = new ArrayList<>();
-        dinero.add(new PieEntry(12,"En."));
-        dinero.add(new PieEntry(16, "Febr."));
-        dinero.add(new PieEntry(22, "Mzo."));
-        dinero.add(new PieEntry(15, "Abr."));
-        dinero.add(new PieEntry(56, "My."));
-        dinero.add(new PieEntry(34, "Jun."));
-        dinero.add(new PieEntry(12, "Jul."));
-        dinero.add(new PieEntry(45, "Ag."));
-        dinero.add(new PieEntry(32, "Sept."));
-        dinero.add(new PieEntry(12, "Oct."));
-        dinero.add(new PieEntry(25, "Nov."));
-        dinero.add(new PieEntry(10, "Dic."));
+        dinero.add(new PieEntry(12.9f,"En."));
+        dinero.add(new PieEntry(16.5f, "Febr."));
+        dinero.add(new PieEntry(22.6f, "Mzo."));
+        dinero.add(new PieEntry(15.8f, "Abr."));
+        dinero.add(new PieEntry(52.8f, "My."));
+        dinero.add(new PieEntry(34.3f, "Jun."));
+        dinero.add(new PieEntry(12.3f, "Jul."));
+        dinero.add(new PieEntry(45.3f, "Ag."));
+        dinero.add(new PieEntry(32.1f, "Sept."));
+        dinero.add(new PieEntry(12.32f, "Oct."));
+        dinero.add(new PieEntry(25.25f, "Nov."));
+        dinero.add(new PieEntry(10.12f, "Dic."));
 
         PieDataSet pieDataSet = new PieDataSet(dinero, "");
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
