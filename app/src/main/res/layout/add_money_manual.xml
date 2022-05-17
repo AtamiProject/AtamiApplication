@@ -3,15 +3,126 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".operaciones.addMoney.AddMoneyActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-27dp">
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add money de manera manual"
+        android:id="@id/textView2"
+        android:layout_width="415dp"
+        android:layout_height="62dp"
+        android:background="@color/darkRed"
+        android:fontFamily="@font/rhodium_libre"
+        android:includeFontPadding="false"
+        android:text="Atami"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="346dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ETDescripcion"
+        android:layout_width="263dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVDescrpcion" />
+
+    <EditText
+        android:id="@+id/ETCantidad"
+        android:layout_width="215dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVCantidad" />
+
+    <TextView
+        android:id="@+id/TVCantidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="20dp"
+        android:text="Cantidad de dinero a ingresar:"
+        android:textColor="#992121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/TVFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:text="Fecha:"
+        android:textColor="#992121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ETCantidad" />
+
+    <EditText
+        android:id="@+id/ETFecha"
+        android:layout_width="141dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVFecha"
+        android:focusableInTouchMode="false"
+        android:inputType="date"/>
+
+    <TextView
+        android:id="@+id/TVCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="16dp"
+        android:text="Categoria"
+        android:textColor="#992121"
+        app:layout_constraintStart_toEndOf="@+id/TVFecha"
+        app:layout_constraintTop_toBottomOf="@+id/ETCantidad" />
+
+    <TextView
+        android:id="@+id/TVDescrpcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="Descripcion:"
+        android:textColor="#992121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ETFecha" />
+
+    <Button
+        android:id="@+id/BTAnnadir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/buttonshapemoney"
+        android:onClick="onClickAnnadir"
+        android:text="Añadir"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ETDescripcion" />
+
+    <Spinner
+        android:id="@+id/desplegableCategorias"
+        android:layout_width="152dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toEndOf="@+id/ETFecha"
+        app:layout_constraintTop_toBottomOf="@+id/ETCantidad" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

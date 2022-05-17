@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/atami"
+        android:layout_width="415dp"
+        android:layout_height="62dp"
+        android:background="@color/darkRed"
+        android:fontFamily="@font/rhodium_libre"
+        android:includeFontPadding="false"
+        android:text="Atami"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TitleCorrecto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/operacionCorrecta"
+        android:textAlignment="center"
+        android:textColor="#992121"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/atami" />
+
+    <TextView
+        android:id="@+id/TextDetalles"
+        android:layout_width="308dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:textColor="@color/darkRed"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleDetalles" />
+
+    <TextView
+        android:id="@+id/TitleDetalles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="@string/detalles"
+        android:textColor="@color/darkRed"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleCorrecto" />
+
+    <TextView
+        android:id="@+id/TitleDescrpicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="163dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:text="@string/descripcion"
+        android:textColor="@color/darkRed"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleDetalles" />
+
+    <TextView
+        android:id="@+id/TextDescripcion"
+        android:layout_width="308dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/rhodium_libre"
+        android:textColor="@color/darkRed"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleDescrpicon" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
