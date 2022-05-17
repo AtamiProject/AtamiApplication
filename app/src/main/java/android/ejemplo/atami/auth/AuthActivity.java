@@ -1,13 +1,18 @@
 package android.ejemplo.atami.auth;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.permisos.PermisosAlmacenaje;
+import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +23,7 @@ import java.util.Map;
 
 public class AuthActivity extends AppCompatActivity {
 
+    private static final int STORAGE_PERMISSION_CODE = 101;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -63,7 +69,8 @@ public class AuthActivity extends AppCompatActivity {
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(relleno);
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
-                                showHome(complete.getResult().getUser().getEmail(), android.ejemplo.atami.auth.ProviderType.BASIC);
+                                checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+                                //showHome(complete.getResult().getUser().getEmail(), android.ejemplo.atami.auth.ProviderType.BASIC);
                             }
                         });
                     } else {
@@ -85,12 +92,23 @@ public class AuthActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void showHome(String email, android.ejemplo.atami.auth.ProviderType provider){
+    private void showHome(){
         Intent homeIntent = new Intent(this, android.ejemplo.atami.principal.PantallaPrincipal.class);
-        homeIntent.putExtra("email",email);
-        homeIntent.putExtra("provider",provider.name());
-
+        //homeIntent.putExtra("email",email);
+        //homeIntent.putExtra("provider",provider.name());
         startActivity(homeIntent);
+    }
+
+    public void checkPermission(String permission, int requestCode) {
+        Intent intent;
+        if (ContextCompat.checkSelfPermission(AuthActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            intent = new Intent(this, PermisosAlmacenaje.class);
+            startActivity(intent);
+        } else {
+            showHome();
+            //intent = new Intent(this, PantallaPrincipal.class);
+            //startActivity(intent);
+        }
     }
 }
 

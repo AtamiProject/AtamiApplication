@@ -56,7 +56,8 @@ public class AuthActivity2 extends AppCompatActivity {
                     Log.e("holaaaaaaaaaaaaaaaaaa","holaaaaaaaaaaaaaaaaaa");
                     if(complete.isSuccessful()){
                         Log.e("aaaaaaaaa","aaaaaaaaaaaaa");
-                        showHome(complete.getResult().getUser().getEmail(), ProviderType.BASIC);
+                        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+                        //showHome(complete.getResult().getUser().getEmail(), ProviderType.BASIC);
                     } else {
                         showAlert();
                     }
@@ -76,11 +77,10 @@ public class AuthActivity2 extends AppCompatActivity {
         dialog.show();
     }
 
-    private void showHome(String email, android.ejemplo.atami.auth.ProviderType provider){
+    private void showHome(){
         Intent homeIntent = new Intent(this, android.ejemplo.atami.principal.PantallaPrincipal.class);
-        homeIntent.putExtra("email",email);
-        homeIntent.putExtra("provider",provider.name());
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+        //homeIntent.putExtra("email",email);
+        //homeIntent.putExtra("provider",provider.name());
         startActivity(homeIntent);
     }
 
@@ -90,8 +90,7 @@ public class AuthActivity2 extends AppCompatActivity {
             intent = new Intent(this, PermisosAlmacenaje.class);
             startActivity(intent);
         } else {
-            intent = new Intent(this, PantallaPrincipal.class);
-            startActivity(intent);
+            showHome();
         }
     }
 
