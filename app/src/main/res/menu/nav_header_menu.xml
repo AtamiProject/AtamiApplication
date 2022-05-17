@@ -1,26 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<<<<<<< HEAD
-    <item
-        android:id="@+id/item1"
-        android:title="Perfil" />
-
-    <item
-        android:id="@+id/item2"
-        android:title="Gráficos" />
-
-    <item
-        android:id="@+id/item3"
-        android:title="Calendario" />
-
-    <item
-        android:id="@+id/item4"
-        android:title="Prémium" />
-
-    <item
-        android:id="@+id/item5"
-        android:title="Cuentas" />
-=======
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/perfil"
@@ -47,6 +26,4 @@
             android:icon="@drawable/ic_baseline_cuentas_24"
             android:title="Cuentas" />
     </group>
->>>>>>> main
-
 </menu>

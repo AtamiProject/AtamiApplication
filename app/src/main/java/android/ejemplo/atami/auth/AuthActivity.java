@@ -11,8 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthActivity extends AppCompatActivity {
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +38,6 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void setUp (){
-        String title = "Authentication";
-
         findViewById(R.id.signUpButton).setOnClickListener(v -> {
             EditText editEmail = findViewById(R.id.emailEditText);
             EditText editPassword = findViewById(R.id.passwordEditText);
@@ -45,15 +49,27 @@ public class AuthActivity extends AppCompatActivity {
             String nombre = editNombre.getText().toString();
             String apellido = editApellido.getText().toString();
             String password2 = editPassword2.getText().toString();
-            if(!email.isEmpty() && !password.isEmpty() && password2.equals(password2)){
-               FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
-                   if (complete.isSuccessful()) {
-                       Log.e("holaaaaaaaaaaaaaaaaaa", "adioooooooooooooooos");
-                       showHome(complete.getResult().getUser().getEmail(), android.ejemplo.atami.auth.ProviderType.BASIC);
-                   } else {
-                       showAlert();
-                   }
-               });
+            Map<String, Object> user = new HashMap<>();
+            user.put("nombre", nombre);
+            user.put("apellido", apellido);
+            user.put("email", email);
+            if(!email.isEmpty() && !password.isEmpty() && password.equals(password2)){
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
+                    if (complete.isSuccessful()) {
+                        db.collection("users").document(email).set(user).addOnCompleteListener(complete2 -> {
+                            if (complete2.isSuccessful()) {
+                                Map<String, Object> relleno = new HashMap<>();
+                                relleno.put("vacio", "vacio");
+                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(relleno);
+                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
+                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
+                                showHome(complete.getResult().getUser().getEmail(), android.ejemplo.atami.auth.ProviderType.BASIC);
+                            }
+                        });
+                    } else {
+                        showAlert();
+                    }
+                });
             } else {
                 showAlert();
             }

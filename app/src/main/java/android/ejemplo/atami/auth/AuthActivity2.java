@@ -1,7 +1,12 @@
 package android.ejemplo.atami.auth;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.ejemplo.atami.MainActivity;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.permisos.PermisosAlmacenaje;
+import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,11 +14,19 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthActivity2 extends AppCompatActivity {
+
+    private static final int STORAGE_PERMISSION_CODE = 101;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +46,6 @@ public class AuthActivity2 extends AppCompatActivity {
     }
 
     private void setUp (){
-        String title = "Authentication";
-
         findViewById(R.id.loginButton).setOnClickListener(v -> {
             EditText editEmail = findViewById(R.id.emailEditText);
             EditText editPassword = findViewById(R.id.passwordEditText);
@@ -44,11 +55,14 @@ public class AuthActivity2 extends AppCompatActivity {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
                     Log.e("holaaaaaaaaaaaaaaaaaa","holaaaaaaaaaaaaaaaaaa");
                     if(complete.isSuccessful()){
+                        Log.e("aaaaaaaaa","aaaaaaaaaaaaa");
                         showHome(complete.getResult().getUser().getEmail(), ProviderType.BASIC);
                     } else {
                         showAlert();
                     }
                 });
+            } else {
+                showAlert();
             }
         });
     }
@@ -66,8 +80,19 @@ public class AuthActivity2 extends AppCompatActivity {
         Intent homeIntent = new Intent(this, android.ejemplo.atami.principal.PantallaPrincipal.class);
         homeIntent.putExtra("email",email);
         homeIntent.putExtra("provider",provider.name());
-
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
         startActivity(homeIntent);
+    }
+
+    public void checkPermission(String permission, int requestCode) {
+        Intent intent;
+        if (ContextCompat.checkSelfPermission(AuthActivity2.this, permission) == PackageManager.PERMISSION_DENIED) {
+            intent = new Intent(this, PermisosAlmacenaje.class);
+            startActivity(intent);
+        } else {
+            intent = new Intent(this, PantallaPrincipal.class);
+            startActivity(intent);
+        }
     }
 
     public void goToRegister(View v){
