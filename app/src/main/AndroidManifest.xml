@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
-            android:name=".MainActivity"
+            android:name=".auth.AuthActivity2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".permisos.PermisosMicro" />
-
         <activity android:name=".permisos.PermisosAlmacenaje" />
         <activity android:name=".principal.PantallaPrincipal" />
+        <activity android:name=".auth.HomeActivity" />
+        <activity android:name=".auth.AuthActivity" />
         <activity android:name=".popUpWindow.PopUpWindowAddMoney"
             android:theme="@style/Theme.Atami.Custom"
             android:launchMode="singleTask"/>

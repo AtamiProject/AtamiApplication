@@ -26,5 +26,4 @@
             android:icon="@drawable/ic_baseline_cuentas_24"
             android:title="Cuentas" />
     </group>
-
 </menu>

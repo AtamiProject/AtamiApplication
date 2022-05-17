@@ -7,6 +7,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.ejemplo.atami.permisos.PermisosAlmacenaje;
+import android.ejemplo.atami.auth.AuthActivity2;
 import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void next(View _) {
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-        //intent = new Intent(this, PermisosAlmacenaje.class);
-        //startActivity(intent);
+        intent = new Intent(this, AuthActivity2.class);
+        startActivity(intent);
     }
 
     public void checkPermission(String permission, int requestCode) {
