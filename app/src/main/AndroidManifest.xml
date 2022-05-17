@@ -40,6 +40,7 @@
         <activity android:name=".operaciones.addMoney.AddMoneyActivity" />
         <activity android:name=".operaciones.takeOut.TakeOutMoneyActivity" />
         <activity android:name=".operaciones.OperacionPorVoz" />
+        <activity android:name=".operaciones.succesfullOperation.OperationCorrect" />
     </application>
 
 </manifest>
