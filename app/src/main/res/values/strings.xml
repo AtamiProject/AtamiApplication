@@ -22,4 +22,11 @@
         <item>HIGIENE</item>
         <item>OTROS</item>
     </string-array>
+    <string-array name="graficos">
+        <item>ANUAL</item>
+        <item>SEMESTRAL</item>
+        <item>TRIMESTRAL</item>
+        <item>MENSUAL</item>
+        <item>PERSONALIZADO</item>
+    </string-array>
 </resources>
