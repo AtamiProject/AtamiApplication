@@ -118,7 +118,7 @@ public class TakeOutMoneyActivity extends Activity {
         if (correctData) {
             Transaccion transaccion = new Transaccion((cantidadDinero*-1), fechaFormateada, selectedCategoria, descripcion);
             addTransactionData(transaccion);
-                        /*Intent intent = new Intent(this, OperationCorrect.class);
+            /*Intent intent = new Intent(this, OperationCorrect.class);
             bundle = new Bundle();
             bundle.putString("cantidad", cantidad);
             bundle.putString("descripcion", descripcion);

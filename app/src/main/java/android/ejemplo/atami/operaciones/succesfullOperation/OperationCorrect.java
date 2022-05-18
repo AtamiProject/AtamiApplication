@@ -1,8 +1,12 @@
 package android.ejemplo.atami.operaciones.succesfullOperation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -12,6 +16,8 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 
 public class OperationCorrect extends Activity {
+
+    Button button;
     private String Scantidad, fechaNoFormateada, selectedCategoria,descrpicion = null;
     private TextView detalles, TVDescripcion;
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -19,6 +25,8 @@ public class OperationCorrect extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.correcto_peration);
+        button = (Button) findViewById(R.id.gopagprincipal);
+
         detalles = (TextView) findViewById(R.id.TextDetalles);
         TVDescripcion = (TextView) findViewById(R.id.TextDescripcion);
         //Aqui assignamos los parametros que le hayamos pasado a la activity
@@ -46,5 +54,10 @@ public class OperationCorrect extends Activity {
             TVDescripcion.setText("afsaf");
         }
 
+    }
+
+    public void goToPantallaPrincipal(View _) {
+        Intent intent = new Intent(this, PantallaPrincipal.class);
+        startActivity(intent);
     }
 }
