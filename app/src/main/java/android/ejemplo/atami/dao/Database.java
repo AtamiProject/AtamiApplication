@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-
+/*
 public class Database {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -126,9 +126,9 @@ public class Database {
         });
     }
 
-    public void addTransactionData(Transaccion trasaccion){
+    public void addTransactionData(Transaccion transaccion){
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
-        colRef.add(trasaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
@@ -141,8 +141,8 @@ public class Database {
                 });
     }
 
-    public void updateTrasactionData(Transaccion transaccion){
-        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document(String.valueOf(transaccion.getId_transaccion()));
+    public void updateTransactionData(Transaccion transaccion){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document(String.valueOf(transaccion));
         docRef.set(transaccion)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -158,7 +158,7 @@ public class Database {
                 });
     }
 
-    public void deleteTrasactionData(Cuenta_bancaria cuenta){
+    public void deleteTransactionData(Cuenta_bancaria cuenta){
         DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document(String.valueOf(cuenta.getId_cuenta()));
         docRef.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -175,7 +175,7 @@ public class Database {
                 });
     }
 
-    public void getAllTransactiosnData(){
+    public void getAllTransactionsData(){
          db.collection("users")
                  .document(this.user.getEmail())
                  .collection("bankAcounts")
@@ -284,3 +284,4 @@ public class Database {
     }
 
 }
+*/
