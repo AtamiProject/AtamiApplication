@@ -10,22 +10,27 @@
         android:id="@+id/logo"
         android:layout_width="273dp"
         android:layout_height="161dp"
-        android:layout_marginTop="20dp"
         android:src="@drawable/horizontal_on_white_by_logaster"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.033" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="250dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887">
 
         <EditText
             android:id="@+id/emailEditText"
@@ -66,8 +71,8 @@
             android:id="@+id/recoverPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:layout_marginTop="100dp"
+            android:background="@color/white"
             android:text="¿Has olvidado la contraseña?"
             android:textColor="@color/darkRed"
             tools:ignore="TextContrastCheck" />
@@ -77,8 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:text="Registrate aqui"
             android:onClick="goToRegister"
+            android:text="Registrate aqui"
             android:textColor="@color/darkRed"
             tools:ignore="TextContrastCheck" />
 
