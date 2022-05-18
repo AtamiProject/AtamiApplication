@@ -4,7 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".premium.Premium">
+    tools:context=".premium.Premium2">
+
+    <Button
+        android:id="@+id/gopagprincipalfromPremium"
+        android:layout_width="225dp"
+        android:layout_height="41dp"
+        android:background="@drawable/buttonshapemoney"
+        android:letterSpacing="0.1"
+        android:onClick="goToPantallaPrincipal"
+        android:text="Volver a la pantalla principal"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
 
     <TextView
         android:id="@+id/tv"

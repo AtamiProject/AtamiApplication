@@ -35,6 +35,7 @@
         <activity android:name=".perfil.Perfil" />
         <activity android:name=".graficos.Graficos" />
         <activity android:name=".premium.Premium" />
+        <activity android:name=".premium.Premium2" />
         <activity android:name=".calendario.Calendario" />
         <activity android:name=".cuentas.Cuentas" />
         <activity android:name=".operaciones.addMoney.AddMoneyActivity" />

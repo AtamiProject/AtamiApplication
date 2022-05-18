@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context=".premium.Premium">
     <!--tools:context=".premium.Premium"-->
     <Button
         android:id="@+id/premium"
@@ -14,7 +14,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/buttonshapemoney"
         android:letterSpacing="0.1"
-        android:onClick="pantallaPago"
+        android:onClick="goToPremium2"
         android:text="¡Quiero ser premium!"
         android:textAllCaps="false"
         android:textColor="@color/white"
