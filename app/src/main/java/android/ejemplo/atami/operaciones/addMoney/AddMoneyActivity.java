@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.os.Bundle;
 import android.text.InputType;
@@ -12,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.ParseException;
@@ -22,7 +24,17 @@ import java.util.Date;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class AddMoneyActivity extends Activity {
+    private FirebaseFirestore db;
+    private FirebaseUser user;
     EditText ETCantidad, ETFecha, ETDescrpicion;
     DatePickerDialog picker;
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -36,6 +48,9 @@ public class AddMoneyActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_money_manual);
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         //Buscamos por id los campos necessarios para annadir dinero
         ETCantidad = (EditText) findViewById(R.id.ETCantidad);
@@ -100,20 +115,36 @@ public class AddMoneyActivity extends Activity {
 
         //En caso de que todos los datos sean correctos procedemos a abrir la Activity "operacionCorrecta"
         if(correctData){
-            Intent intent = new Intent(this, OperationCorrect.class);
-            bundle = new Bundle();
-            bundle.putString("cantidad", cantidad);
-            bundle.putString("descripcion", descripcion);
-            bundle.putString("fechaNoFormateada", fechaNoFormateada);
-            bundle.putString("selectedCategoria", selectedCategoria);
-
-            //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-            bundle.putString("tipo","annadir");
-
-            intent.putExtras(bundle);
-            startActivity(intent);
+            addTransactionData(fechaFormateada, fechaNoFormateada);
         }
 
+    }
+
+    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada){
+        Intent intent = new Intent(this, OperationCorrect.class);
+        Transaccion transaccion = new Transaccion(cantidadDinero, fechaFormateada, selectedCategoria, descripcion);
+        CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
+        colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                bundle = new Bundle();
+                bundle.putString("cantidad", cantidad);
+                bundle.putString("descripcion", descripcion);
+                bundle.putString("fechaNoFormateada", fechaNoFormateada);
+                bundle.putString("selectedCategoria", selectedCategoria);
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo","annadir");
+
+                intent.putExtras(bundle);
+                startActivity(intent);            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.w(TAG, "Error adding document", e);
+            }
+        });
     }
 
 }
