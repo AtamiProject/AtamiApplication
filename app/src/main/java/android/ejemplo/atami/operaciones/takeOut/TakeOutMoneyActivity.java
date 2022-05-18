@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.addMoney.AddMoneyActivity;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.os.Bundle;
@@ -13,17 +14,29 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 public class TakeOutMoneyActivity extends Activity {
     EditText ETCantidad, ETFecha, ETDescrpicion;
@@ -33,6 +46,9 @@ public class TakeOutMoneyActivity extends Activity {
     String cantidad, descripcion, selectedCategoria;
     Spinner spinCategoria;
     Bundle bundle;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +116,9 @@ public class TakeOutMoneyActivity extends Activity {
 
         //En caso de que todos los datos sean correctos procedemos a abrir la Activity "operacionCorrecta"
         if (correctData) {
-            Intent intent = new Intent(this, OperationCorrect.class);
+            Transaccion transaccion = new Transaccion((cantidadDinero*-1), fechaFormateada, selectedCategoria, descripcion);
+            addTransactionData(transaccion);
+                        /*Intent intent = new Intent(this, OperationCorrect.class);
             bundle = new Bundle();
             bundle.putString("cantidad", cantidad);
             bundle.putString("descripcion", descripcion);
@@ -110,7 +128,36 @@ public class TakeOutMoneyActivity extends Activity {
             //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
             bundle.putString("tipo","quitar");
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivity(intent);*/
         }
+    }
+
+    public void addTransactionData(Transaccion transaccion){
+        Intent intent = new Intent(this, OperationCorrect.class);
+        CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
+                colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+
+                bundle = new Bundle();
+                bundle.putString("cantidad", transaccion.getCantidad().toString());
+                bundle.putString("descripcion", transaccion.getDescripcion());
+                bundle.putString("fechaNoFormateada", formatoFecha.format(transaccion.getFecha()));
+                bundle.putString("selectedCategoria", transaccion.getCategoria());
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo","quitar");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.w(TAG, "Error adding document", e);
+                Toast.makeText(TakeOutMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }
