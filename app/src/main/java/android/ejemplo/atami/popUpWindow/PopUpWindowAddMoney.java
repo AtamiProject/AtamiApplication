@@ -15,7 +15,9 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 public class PopUpWindowAddMoney extends Activity {
+
     Intent intent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
