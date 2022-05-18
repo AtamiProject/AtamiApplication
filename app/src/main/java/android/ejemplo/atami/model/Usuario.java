@@ -3,7 +3,6 @@ package android.ejemplo.atami.model;
 import java.util.ArrayList;
 
 public class Usuario {
-    private Long id_usuario;
     private String nombre;
     private String apellidos;
     private String correo;
@@ -13,17 +12,12 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id_usuario, String nombre, String apellidos, String correo, String password, String tipo) {
-        this.id_usuario = id_usuario;
+    public Usuario(String nombre, String apellidos, String correo, String password, String tipo) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.correo = correo;
         this.password = password;
         this.tipo = tipo;
-    }
-
-    public Long getId_usuario() {
-        return id_usuario;
     }
 
     public String getNombre() {
@@ -44,10 +38,6 @@ public class Usuario {
 
     public String getTipo() {
         return tipo;
-    }
-
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
     }
 
     public void setNombre(String nombre) {
