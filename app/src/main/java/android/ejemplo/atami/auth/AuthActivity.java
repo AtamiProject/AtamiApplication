@@ -66,7 +66,9 @@ public class AuthActivity extends AppCompatActivity {
                             if (complete2.isSuccessful()) {
                                 Map<String, Object> relleno = new HashMap<>();
                                 relleno.put("vacio", "vacio");
-                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(relleno);
+                                Map<String, Object> totalCuenta = new HashMap<>();
+                                relleno.put("total", 0);
+                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(totalCuenta);
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
                                 checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
@@ -93,7 +95,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void showHome(){
-        Intent homeIntent = new Intent(this, android.ejemplo.atami.principal.PantallaPrincipal.class);
+        Intent homeIntent = new Intent(this, PantallaPrincipal.class);
         //homeIntent.putExtra("email",email);
         //homeIntent.putExtra("provider",provider.name());
         startActivity(homeIntent);

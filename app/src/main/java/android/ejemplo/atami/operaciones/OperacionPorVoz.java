@@ -3,6 +3,8 @@ package android.ejemplo.atami.operaciones;
 import android.app.Activity;
 import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Transaccion;
+import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -13,16 +15,32 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class OperacionPorVoz extends Activity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1000;
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    private FirebaseFirestore db;
+    private FirebaseUser user;
     ImageButton micro;
     Button infoCategorias;
     TextView infoMensaje, errorMensaje;
@@ -35,6 +53,9 @@ public class OperacionPorVoz extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.operacion_por_voz);
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         micro = (ImageButton) findViewById(R.id.button_micro);
         infoCategorias = (Button) findViewById(R.id.infoCategorias);
@@ -163,12 +184,51 @@ public class OperacionPorVoz extends Activity {
             Toast.makeText(this, "Falta la accion", Toast.LENGTH_LONG).show();
 
         } else if (annadir && dineroEsCorrecto && categoriaCorrecta) {
-            //Realizar accion de annadir dinero a la bbdd, para saber la categoria escogida usa la variable @categoriaEscogida
+            Toast.makeText(this, "Formato correcto", Toast.LENGTH_LONG).show();
+            addTransactionData("annadir");
 
         } else if (retirar && dineroEsCorrecto && categoriaCorrecta) {
-            //Realizar accion de retirar dinero, para saber la categoria escogida usa la variable @categoriaEscogida
+            //TODO
+            Toast.makeText(this, "Formato correcto", Toast.LENGTH_LONG).show();
+            addTransactionData("retirar");
         }
 
+    }
+
+    public void addTransactionData(String tipo) {
+        Intent intent = new Intent(this, OperationCorrect.class);
+        Date fechaFormateada = null;
+        try {
+            fechaFormateada = formatoFecha.parse(String.valueOf(Calendar.getInstance().DATE));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(tipo.equals("retirar")){
+            cantidadDinero*=-1;
+        }
+        Transaccion transaccion = new Transaccion(Float.valueOf(String.valueOf(cantidadDinero)), fechaFormateada, categoriaEscogida, "");
+        CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
+        colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Bundle bundle = new Bundle();
+                bundle.putString("cantidad", String.valueOf(cantidadDinero));
+                bundle.putString("descripcion", "");
+                bundle.putString("fechaNoFormateada", String.valueOf(new Date()));
+                bundle.putString("selectedCategoria", categoriaEscogida);
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo","annadir");
+
+                intent.putExtras(bundle);
+                startActivity(intent);            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //TODO
+            }
+        });
     }
 
     //Con esta funcion comprobamos que el valor sea un Double

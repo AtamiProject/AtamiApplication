@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Usuario {
     private String nombre;
-    private String apellidos;
+    private String apellido;
     private String correo;
     private String password;
     private String tipo;
@@ -12,9 +12,9 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellidos, String correo, String password, String tipo) {
+    public Usuario(String nombre, String apellido, String correo, String password, String tipo) {
         this.nombre = nombre;
-        this.apellidos = apellidos;
+        this.apellido = apellido;
         this.correo = correo;
         this.password = password;
         this.tipo = tipo;
@@ -24,8 +24,8 @@ public class Usuario {
         return nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getApellido() {
+        return apellido;
     }
 
     public String getCorreo() {
@@ -44,8 +44,8 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public void setCorreo(String correo) {
