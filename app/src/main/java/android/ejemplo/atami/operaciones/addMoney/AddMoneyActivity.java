@@ -117,16 +117,18 @@ public class AddMoneyActivity extends Activity {
 
         //En caso de que todos los datos sean correctos procedemos a abrir la Activity "operacionCorrecta"
         if (correctData) {
-            try{
+            try {
                 addTransactionData(fechaFormateada, fechaNoFormateada);
-            }catch(Exception e){
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Algo no ha ido como se esperaba", Toast.LENGTH_SHORT).show();
 
             }
         }
 
     }
 
-    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada) {
+    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada) throws ParseException {
         Intent intent = new Intent(this, OperationCorrect.class);
         Transaccion transaccion = new Transaccion(cantidadDinero, fechaFormateada, selectedCategoria, descripcion);
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
