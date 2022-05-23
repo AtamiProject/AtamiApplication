@@ -29,12 +29,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class OperacionPorVoz extends Activity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1000;
@@ -48,6 +50,7 @@ public class OperacionPorVoz extends Activity {
     boolean annadir, retirar, dineroEsCorrecto, categoriaCorrecta;
     String[] categorias;
     String categoriasEnFila, categoriaEscogida;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -199,29 +202,42 @@ public class OperacionPorVoz extends Activity {
 
     public void addTransactionData(String tipo) {
         Intent intent = new Intent(this, OperationCorrect.class);
+        long ahora = System.currentTimeMillis();
+        Date fechaActual = new Date(ahora);
+        String fechaActualString = formatoFecha.format(fechaActual);
         Date fechaFormateada = null;
+
         try {
-            fechaFormateada = formatoFecha.parse(String.valueOf(Calendar.getInstance().DATE));
+            fechaFormateada = formatoFecha.parse( fechaActualString);
         } catch (ParseException e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Algo no ha ido como se esperaba", Toast.LENGTH_SHORT).show();
         }
         if(tipo.equals("retirar")){
             cantidadDinero*=-1;
         }
-        Transaccion transaccion = new Transaccion(Float.valueOf(String.valueOf(cantidadDinero)), fechaFormateada, categoriaEscogida, "");
+
+        //Iniciamos la trasnaccion para enviar los datos al Firebase
+        Transaccion transaccion = new Transaccion(Float.valueOf(String.valueOf(cantidadDinero)), fechaFormateada, categoriaEscogida, "Operacion realizada con comandos de voz :)");
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
+        //Si to do va bien se envia la informacion a la pantalla de confirmacion
         colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Bundle bundle = new Bundle();
                 bundle.putString("cantidad", String.valueOf(cantidadDinero));
-                bundle.putString("descripcion", "");
-                bundle.putString("fechaNoFormateada", String.valueOf(new Date()));
+                bundle.putString("descripcion", "Operacion realizada con comandos de voz :)");
+                bundle.putString("fechaNoFormateada", "Hoy-"+fechaActualString);
                 bundle.putString("selectedCategoria", categoriaEscogida);
 
                 //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-                bundle.putString("tipo","annadir");
+                if(tipo.equals("retirar")){
+                    bundle.putString("tipo","quitar");
+                }else{
+                    bundle.putString("tipo","annadir");
+                }
+
 
                 intent.putExtras(bundle);
                 startActivity(intent);            }

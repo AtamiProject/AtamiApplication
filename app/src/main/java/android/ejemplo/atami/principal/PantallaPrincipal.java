@@ -58,7 +58,8 @@ public class PantallaPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_principal);
-        listViewGastos = (ListView) findViewById(R.id.gastos);
+
+       listViewGastos = (ListView) findViewById(R.id.gastos);
         listViewIngresos = (ListView) findViewById(R.id.ingresos);
         textView = (TextView) findViewById(R.id.total);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
