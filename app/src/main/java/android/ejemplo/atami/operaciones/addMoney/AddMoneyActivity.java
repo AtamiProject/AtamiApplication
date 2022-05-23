@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddMoneyActivity extends Activity {
@@ -89,7 +91,7 @@ public class AddMoneyActivity extends Activity {
     public void onClickAnnadir(View _) {
         Boolean correctData = true;
         cantidad = ETCantidad.getText().toString();
-        Date fechaFormateada=null;
+        Date fechaFormateada = null;
         String fechaNoFormateada = ETFecha.getText().toString();
 
         //Aqui transformamos la fecha de String  Date y parseamos el String a Float,
@@ -100,11 +102,11 @@ public class AddMoneyActivity extends Activity {
         } catch (ParseException | NumberFormatException e) {
             e.printStackTrace();
             String[] message = e.getMessage().split(" ");
-            correctData=false;
+            correctData = false;
             if (message[1].equals("date:")) {
-                Toast.makeText(getApplicationContext(),"El campo 'Fecha' és incorrecto" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "El campo 'Fecha' és incorrecto", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(),"El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
             }
         }
         //Como la descripcion no es obligatoria simplemente un trim para quitar espacios innecesarios
@@ -114,13 +116,17 @@ public class AddMoneyActivity extends Activity {
         selectedCategoria = spinCategoria.getSelectedItem().toString();
 
         //En caso de que todos los datos sean correctos procedemos a abrir la Activity "operacionCorrecta"
-        if(correctData){
-            addTransactionData(fechaFormateada, fechaNoFormateada);
+        if (correctData) {
+            try{
+                addTransactionData(fechaFormateada, fechaNoFormateada);
+            }catch(Exception e){
+
+            }
         }
 
     }
 
-    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada){
+    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada) {
         Intent intent = new Intent(this, OperationCorrect.class);
         Transaccion transaccion = new Transaccion(cantidadDinero, fechaFormateada, selectedCategoria, descripcion);
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
@@ -128,6 +134,7 @@ public class AddMoneyActivity extends Activity {
 
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                getBankAccountData();
                 bundle = new Bundle();
                 bundle.putString("cantidad", cantidad);
                 bundle.putString("descripcion", descripcion);
@@ -135,14 +142,41 @@ public class AddMoneyActivity extends Activity {
                 bundle.putString("selectedCategoria", selectedCategoria);
 
                 //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-                bundle.putString("tipo","annadir");
+                bundle.putString("tipo", "annadir");
 
                 intent.putExtras(bundle);
-                startActivity(intent);            }
+                startActivity(intent);
+            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 //Log.w(TAG, "Error adding document", e);
+            }
+        });
+    }
+
+    public void getBankAccountData(){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                updateTotal(cuenta);
+            }
+        });
+    }
+
+    public void updateTotal(Cuenta_bancaria cuenta){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.set(new Cuenta_bancaria(cuenta.getTotal()+cantidadDinero)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                    //Log.w(TAG, "Error deleting document", e);
             }
         });
     }
