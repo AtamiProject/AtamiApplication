@@ -72,7 +72,6 @@ public class AuthActivity extends AppCompatActivity {
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
                                 db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
                                 checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-                                //showHome(complete.getResult().getUser().getEmail(), android.ejemplo.atami.auth.ProviderType.BASIC);
                             }
                         });
                     } else {

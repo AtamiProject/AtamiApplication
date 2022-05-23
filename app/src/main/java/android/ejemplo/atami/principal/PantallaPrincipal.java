@@ -142,7 +142,7 @@ public class PantallaPrincipal extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
-                textView.setText("Total: " + cuenta.getTotal());
+                textView.setText("Total: " + cuenta.getTotal()+" €");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

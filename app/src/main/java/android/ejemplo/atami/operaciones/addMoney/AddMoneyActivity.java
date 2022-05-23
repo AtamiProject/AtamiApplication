@@ -104,9 +104,9 @@ public class AddMoneyActivity extends Activity {
             String[] message = e.getMessage().split(" ");
             correctData = false;
             if (message[1].equals("date:")) {
-                Toast.makeText(getApplicationContext(), "El campo 'Fecha' és incorrecto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"El campo 'Fecha' és incorrecto" , Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
             }
         }
         //Como la descripcion no es obligatoria simplemente un trim para quitar espacios innecesarios
