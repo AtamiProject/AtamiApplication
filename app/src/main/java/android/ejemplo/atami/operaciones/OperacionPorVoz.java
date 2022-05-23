@@ -143,7 +143,7 @@ public class OperacionPorVoz extends Activity {
                         if (mensaje.equals("retirar") || mensaje.equals("quitar")) {
                             retirar = true;
                         }
-                        if (mensaje.equals("añadir") || mensaje.equals("poner")) {
+                        if (mensaje.equals("añadir") || mensaje.equals("poner") ||  mensaje.equals("añade") ||  mensaje.equals("pon")) {
                             annadir = true;
                         }
                         if (isValidDouble(mensaje)) {
@@ -182,10 +182,12 @@ public class OperacionPorVoz extends Activity {
             errorMensaje.setText("Mensaje de error:\n" + "No se ha encontrado la categoria");
         } else if (dineroEsCorrecto && (!annadir && !retirar)) {
             Toast.makeText(this, "Falta la accion", Toast.LENGTH_LONG).show();
+            errorMensaje.setText("Mensaje de error:\n" + "Falta la acción");
 
         } else if (annadir && dineroEsCorrecto && categoriaCorrecta) {
             Toast.makeText(this, "Formato correcto", Toast.LENGTH_LONG).show();
             addTransactionData("annadir");
+
 
         } else if (retirar && dineroEsCorrecto && categoriaCorrecta) {
             //TODO

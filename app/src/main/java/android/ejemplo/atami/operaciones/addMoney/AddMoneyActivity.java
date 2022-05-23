@@ -8,6 +8,7 @@ import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -81,6 +82,8 @@ public class AddMoneyActivity extends Activity {
                             }
                         }, year, month, day);
                 picker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+                //Con esta opcion evitamos que seleccione fechas futuras
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
             }
         });
@@ -89,7 +92,7 @@ public class AddMoneyActivity extends Activity {
     public void onClickAnnadir(View _) {
         Boolean correctData = true;
         cantidad = ETCantidad.getText().toString();
-        Date fechaFormateada=null;
+        Date fechaFormateada = null;
         String fechaNoFormateada = ETFecha.getText().toString();
 
         //Aqui transformamos la fecha de String  Date y parseamos el String a Float,
@@ -100,11 +103,11 @@ public class AddMoneyActivity extends Activity {
         } catch (ParseException | NumberFormatException e) {
             e.printStackTrace();
             String[] message = e.getMessage().split(" ");
-            correctData=false;
+            correctData = false;
             if (message[1].equals("date:")) {
-                Toast.makeText(getApplicationContext(),"El campo 'Fecha' és incorrecto" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "El campo 'Fecha' és incorrecto", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(),"El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
             }
         }
         //Como la descripcion no es obligatoria simplemente un trim para quitar espacios innecesarios
@@ -114,15 +117,22 @@ public class AddMoneyActivity extends Activity {
         selectedCategoria = spinCategoria.getSelectedItem().toString();
 
         //En caso de que todos los datos sean correctos procedemos a abrir la Activity "operacionCorrecta"
-        if(correctData){
-            addTransactionData(fechaFormateada, fechaNoFormateada);
+        if (correctData) {
+            try {
+                addTransactionData(fechaFormateada, fechaNoFormateada);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Algo no ha ido como se esperaba", Toast.LENGTH_SHORT).show();
+
+            }
         }
 
     }
 
-    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada){
+    public void addTransactionData(Date fechaFormateada, String fechaNoFormateada) throws ParseException {
         Intent intent = new Intent(this, OperationCorrect.class);
-        Transaccion transaccion = new Transaccion(cantidadDinero, fechaFormateada, selectedCategoria, descripcion);
+        Transaccion transaccion = new Transaccion(cantidadDinero, formatoFecha.parse(fechaNoFormateada), selectedCategoria, descripcion);
+        Log.d("pruebamala", fechaFormateada.toString());
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
         colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 
@@ -135,10 +145,11 @@ public class AddMoneyActivity extends Activity {
                 bundle.putString("selectedCategoria", selectedCategoria);
 
                 //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-                bundle.putString("tipo","annadir");
+                bundle.putString("tipo", "annadir");
 
                 intent.putExtras(bundle);
-                startActivity(intent);            }
+                startActivity(intent);
+            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
