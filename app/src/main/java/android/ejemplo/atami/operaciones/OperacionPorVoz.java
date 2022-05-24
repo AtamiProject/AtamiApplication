@@ -27,6 +27,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Text;
 
 import java.sql.Time;
@@ -154,7 +155,9 @@ public class OperacionPorVoz extends Activity {
                             cantidadDinero = Double.parseDouble(mensaje);
                         }
                         for (String categoria : categorias) {
-                            if (mensaje.equals(categoria.toLowerCase(Locale.ROOT))) {
+                            Log.i("categorias", categoria.toLowerCase(Locale.ROOT));
+
+                            if (StringUtils.stripAccents(mensaje.toLowerCase(Locale.ROOT)).equals(categoria.toLowerCase(Locale.ROOT))) {
                                 categoriaCorrecta = true;
                                 categoriaEscogida = mensaje;
                             } else if (mensaje.equals("ropa") || mensaje.equals("calzado")) {
