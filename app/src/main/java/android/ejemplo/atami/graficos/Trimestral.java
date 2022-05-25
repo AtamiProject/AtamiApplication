@@ -162,7 +162,7 @@ public class Trimestral extends AppCompatActivity {
 
         barChart.setFitBars(true);
         barChart.setData(barData);
-        barChart.getDescription().setText("Semestral");
+        barChart.getDescription().setText("Trimestral");
         barChart.getDescription().setTextSize(16f);
         barChart.getAxisRight().setDrawLabels(false);
         barChart.getXAxis().setDrawLabels(false);
