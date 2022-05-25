@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.ejemplo.atami.graficos.Anual;
 import android.ejemplo.atami.graficos.Semestral;
 import android.ejemplo.atami.graficos.Trimestral;
+import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.popUpWindow.PopUpWindowAddMoney;
 //import android.ejemplo.atami.PopUpWindow.PopUpWindowTakeOut;
@@ -22,6 +23,9 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -30,10 +34,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,6 +56,9 @@ import java.util.TimeZone;
 
 public class PantallaPrincipal extends AppCompatActivity {
 
+    ListView listViewGastos;
+    ListView listViewIngresos;
+    TextView textView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
@@ -64,6 +75,10 @@ public class PantallaPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_principal);
+
+        listViewGastos = (ListView) findViewById(R.id.gastos);
+        listViewIngresos = (ListView) findViewById(R.id.ingresos);
+        textView = (TextView) findViewById(R.id.total);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -101,6 +116,56 @@ public class PantallaPrincipal extends AppCompatActivity {
                 return false;
             }
         });
+        getBankAccountData();
+        getAllTransactionsData();
+    }
+
+    public void getAllTransactionsData() {
+        db.collection("users")
+                .document(this.user.getEmail())
+                .collection("bankAcounts")
+                .document("cuentaPrincipal")
+                .collection("transactions")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> ingresos = new ArrayList<String>();
+                            List<String> gastos = new ArrayList<String>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaccion transaccion = document.toObject(Transaccion.class);
+                                if(transaccion.getCantidad() >= 0){
+                                    ingresos.add(transaccion.toString());
+                                } else {
+                                    gastos.add(transaccion.toString());
+                                }
+                            }
+                            listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, gastos));
+                            listViewIngresos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, ingresos));
+                            listViewGastos.setVisibility(View.VISIBLE);
+                            listViewIngresos.setVisibility(View.VISIBLE);
+                        } else {
+                            //TODO
+                        }
+                    }
+                });
+    }
+
+    public void getBankAccountData() {
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                textView.setText("Total: " + cuenta.getTotal()+" €");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //TODO
+            }
+        });
+
     }
 
     public void openDialog() {
@@ -388,7 +453,6 @@ public class PantallaPrincipal extends AppCompatActivity {
     public void addMoneyOnClick(View _){
         startActivity(new Intent(PantallaPrincipal.this, PopUpWindowAddMoney.class));
     }
-
     public void takeOutMoneyOnClick(View _){
         startActivity(new Intent(PantallaPrincipal.this, PopUpWindowTakeOut.class));
     }

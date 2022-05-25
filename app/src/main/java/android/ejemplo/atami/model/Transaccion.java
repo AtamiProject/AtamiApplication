@@ -19,6 +19,11 @@ public class Transaccion {
         this.descripcion = descripcion;
     }
 
+    @Override
+    public String toString() {
+        return categoria + ": " + cantidad + "$ - " + fecha ;
+    }
+
     public Float getCantidad() {
         return cantidad;
     }
@@ -27,9 +32,7 @@ public class Transaccion {
         this.cantidad = cantidad;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
+    public Date getFecha() { return fecha; }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
