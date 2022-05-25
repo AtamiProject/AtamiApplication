@@ -34,6 +34,10 @@
             android:launchMode="singleTask"/>
         <activity android:name=".perfil.Perfil" />
         <activity android:name=".graficos.Graficos" />
+        <activity android:name=".graficos.Anual" />
+        <activity android:name=".graficos.Semestral" />
+        <activity android:name=".graficos.Trimestral" />
+        <activity android:name=".graficos.Mensual" />
         <activity android:name=".premium.Premium" />
         <activity android:name=".premium.Premium2" />
         <activity android:name=".calendario.Calendario" />

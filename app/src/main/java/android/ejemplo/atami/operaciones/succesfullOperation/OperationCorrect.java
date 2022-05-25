@@ -60,4 +60,7 @@ public class OperationCorrect extends Activity {
         Intent intent = new Intent(this, PantallaPrincipal.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {}
 }
