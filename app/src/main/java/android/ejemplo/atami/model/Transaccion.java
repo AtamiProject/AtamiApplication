@@ -1,5 +1,6 @@
 package android.ejemplo.atami.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaccion {
@@ -8,6 +9,8 @@ public class Transaccion {
     private Date fecha;
     private String categoria;
     private String descripcion;
+
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
     public Transaccion() {
     }
@@ -21,7 +24,7 @@ public class Transaccion {
 
     @Override
     public String toString() {
-        return categoria + ": " + cantidad + "€ - " + fecha ;
+        return categoria + ": " + cantidad + "€ - " + formatoFecha.format(fecha);
     }
 
     public Float getCantidad() {

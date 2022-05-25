@@ -8,12 +8,14 @@ import android.ejemplo.atami.graficos.Semestral;
 import android.ejemplo.atami.graficos.Trimestral;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
+import android.ejemplo.atami.model.Usuario;
 import android.ejemplo.atami.popUpWindow.PopUpWindowAddMoney;
 import android.ejemplo.atami.popUpWindow.PopUpWindowTakeOut;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.calendario.Calendario;
 import android.ejemplo.atami.perfil.Perfil;
 import android.ejemplo.atami.premium.Premium;
+import android.ejemplo.atami.premium.Premium2;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -101,8 +103,7 @@ public class PantallaPrincipal extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.premium) {
                     if(drawerLayout.isDrawerOpen(Gravity.LEFT)) drawerLayout.closeDrawer(Gravity.LEFT);
-                    intent = new Intent(PantallaPrincipal.this, Premium.class);
-                    startActivity(intent);
+                    getUserData();
                 }/* else if (id == R.id.cuentas) {
                     if(drawerLayout.isDrawerOpen(Gravity.LEFT)) drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(PantallaPrincipal.this, Cuentas.class);
@@ -130,20 +131,14 @@ public class PantallaPrincipal extends AppCompatActivity {
                     List<String> gastos = new ArrayList<String>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Transaccion transaccion = document.toObject(Transaccion.class);
-                        try {
-                            System.out.println(formatoFecha.parse(transaccion.getFecha().toString()));
-                            transaccion.setFecha(formatoFecha.parse(transaccion.getFecha().toString()));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
                         if(transaccion.getCantidad() >= 0){
                             ingresos.add(transaccion.toString());
                         } else {
                             gastos.add(transaccion.toString());
                         }
                     }
-                    listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, gastos));
-                    listViewIngresos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, ingresos));
+                    listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, gastos));
+                    listViewIngresos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, ingresos));
                     listViewGastos.setVisibility(View.VISIBLE);
                     listViewIngresos.setVisibility(View.VISIBLE);
                 } else {
@@ -479,9 +474,20 @@ public class PantallaPrincipal extends AppCompatActivity {
         }
     }
 
-    //https://material.io/components/buttons-floating-action-button/android#regular-fabs
-    //https://maven.google.com/web/index.html#
-    //https://stackoverflow.com/questions/22530394/how-to-open-sliding-menu-on-buttons-click-event
-    //https://www.youtube.com/watch?v=63Ipzp9U_bU
-    //https://www.youtube.com/watch?v=do4vb0MdLFY ->slidemenu
+    public void getUserData(){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail());
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                if(usuario.isPremium()) {
+                    intent = new Intent(PantallaPrincipal.this, Premium2.class);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(PantallaPrincipal.this, Premium.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
 }

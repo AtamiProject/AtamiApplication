@@ -61,7 +61,7 @@
             <ListView
                 android:id="@+id/listaEventos"
                 android:layout_width="match_parent"
-                android:layout_height="277dp"
+                android:layout_height="278dp"
                 android:layout_weight="1"
                 android:visibility="invisible" />
 

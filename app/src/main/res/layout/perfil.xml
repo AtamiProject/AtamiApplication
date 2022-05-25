@@ -101,8 +101,8 @@
 
     <Button
         android:id="@+id/changepsswd"
-        android:layout_width="159dp"
-        android:layout_height="27dp"
+        android:layout_width="225dp"
+        android:layout_height="41dp"
         android:layout_marginTop="36dp"
         android:layout_marginBottom="25dp"
         android:background="@drawable/buttonshapemoney"
@@ -110,7 +110,7 @@
         android:text="Cambiar contraseña"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="12dp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -119,15 +119,15 @@
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="159dp"
-        android:layout_height="27dp"
+        android:layout_width="225dp"
+        android:layout_height="41dp"
         android:layout_marginBottom="36dp"
         android:background="@drawable/buttonshapemoney"
         android:letterSpacing="0.1"
         android:text="Cerrar Sesión"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="12dp"
+        android:textSize="16dp"
         android:onClick="logOut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

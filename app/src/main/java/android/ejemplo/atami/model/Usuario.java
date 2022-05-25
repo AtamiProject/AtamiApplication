@@ -36,7 +36,7 @@ public class Usuario {
         return password;
     }
 
-    public boolean getTipo() {
+    public boolean isPremium() {
         return premium;
     }
 

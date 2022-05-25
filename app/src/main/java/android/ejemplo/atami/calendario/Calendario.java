@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Transaccion;
-import android.ejemplo.atami.modelo.Eventos;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +32,6 @@ public class Calendario extends AppCompatActivity {
 
     CalendarView calendarView;
     ListView listView;
-    private ArrayList<Eventos> e;
     private boolean found;
     private SimpleDateFormat dateFormat;
     Calendar c;
@@ -53,18 +51,8 @@ public class Calendario extends AppCompatActivity {
         calendarView = (CalendarView) findViewById(R.id.calendarView);
         dateFormat = new SimpleDateFormat("dd-MM-yyy");
         found = false;
-        e = new ArrayList<>();
         //get events bbdd
         getAllTransactionsData();
-        /*//adding events manually
-        try {
-            e.add(new Eventos(dateFormat.parse("07-04-2022"),"Evento1", "Este es el primer evento"));
-            e.add(new Eventos(dateFormat.parse("07-04-2022"),"Evento2", "Este es el segundo evento"));
-            e.add(new Eventos(dateFormat.parse("10-04-2022"),"Evento3", "Este es el tercer evento"));
-            e.add(new Eventos(dateFormat.parse("27-04-2022"),"Evento4", "Este es el cuarto evento"));
-        } catch (ParseException parseException) {
-            parseException.printStackTrace();
-        }*/
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -105,7 +93,6 @@ public class Calendario extends AppCompatActivity {
                             }
                         } else {
                             Toast.makeText(Calendario.this, "Ha ocurrido un error al conectarse a la base de datos", Toast.LENGTH_LONG).show();
-                            //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
