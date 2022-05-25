@@ -230,7 +230,7 @@ public class OperacionPorVoz extends Activity {
         }
 
         //Iniciamos la trasnaccion para enviar los datos al Firebase
-        Transaccion transaccion = new Transaccion(Float.valueOf(String.valueOf(cantidadDinero)), fechaFormateada, categoriaEscogida, "Operacion realizada con comandos de voz :)");
+        Transaccion transaccion = new Transaccion(Float.valueOf(String.valueOf(cantidadDinero)), fechaFormateada, categoriaEscogida.toUpperCase(Locale.ROOT), "Operacion realizada con comandos de voz :)");
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
         //Si to do va bien se envia la informacion a la pantalla de confirmacion
         colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
