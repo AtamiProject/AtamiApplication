@@ -8,8 +8,6 @@ import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
-import android.ejemplo.atami.permisos.PermisosMicro;
-import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -318,5 +316,26 @@ public class OperacionPorVoz extends Activity {
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    //Comprobamos que tenga persmiso de micro
+    public void checkPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(OperacionPorVoz.this, permission) == PackageManager.PERMISSION_DENIED) {
+            // Requesting the permission
+            ActivityCompat.requestPermissions(OperacionPorVoz.this, new String[] { permission }, requestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_AUDIO_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(OperacionPorVoz.this, "Micro Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(OperacionPorVoz.this, "Para utilizar esta funcionalidad debes dar permisos de voz", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 }

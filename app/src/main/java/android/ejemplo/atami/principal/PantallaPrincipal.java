@@ -155,28 +155,6 @@ public class PantallaPrincipal extends AppCompatActivity {
                 }
             }
         });
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> ingresos = new ArrayList<String>();
-                            List<String> gastos = new ArrayList<String>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Transaccion transaccion = document.toObject(Transaccion.class);
-                                if(transaccion.getCantidad() >= 0){
-                                    ingresos.add(transaccion.toString());
-                                } else {
-                                    gastos.add(transaccion.toString());
-                                }
-                            }
-                            listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, gastos));
-                            listViewIngresos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, ingresos));
-                            listViewGastos.setVisibility(View.VISIBLE);
-                            listViewIngresos.setVisibility(View.VISIBLE);
-                        } else {
-                            //TODO
-                        }
-                    }
-                });
     }
 
     public void getBankAccountData() {
