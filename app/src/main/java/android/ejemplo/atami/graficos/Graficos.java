@@ -1,36 +1,64 @@
 package android.ejemplo.atami.graficos;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Transaccion;
+import android.ejemplo.atami.operaciones.takeOut.TakeOutMoneyActivity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.MonthDisplayHelper;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 public class Graficos extends AppCompatActivity {
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     Spinner spinner;
     private String selected;
-    ViewStub stub;
+
+    private List<Transaccion> transacciones = new ArrayList<>();
+    public static List<Transaccion> filteredTransactions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graficos);
-
-        stub = (ViewStub) findViewById(R.id.layout_stub);
 
         spinner = (Spinner) findViewById(R.id.spinner_graficos);
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.graficos, android.R.layout.simple_spinner_item);
@@ -39,58 +67,71 @@ public class Graficos extends AppCompatActivity {
 
         //https://www.youtube.com/watch?v=vhKtbECeazQ
 
-        /*PieChart pieChart = (PieChart) findViewById(R.id.piechart_view);
-
-        ArrayList<PieEntry> dinero = new ArrayList<>();
-        dinero.add(new PieEntry(12.9f,"En."));
-        dinero.add(new PieEntry(16.5f, "Febr."));
-        dinero.add(new PieEntry(22.6f, "Mzo."));
-        dinero.add(new PieEntry(15.8f, "Abr."));
-        dinero.add(new PieEntry(52.8f, "My."));
-        dinero.add(new PieEntry(34.3f, "Jun."));
-        dinero.add(new PieEntry(12.3f, "Jul."));
-        dinero.add(new PieEntry(45.3f, "Ag."));
-        dinero.add(new PieEntry(32.1f, "Sept."));
-        dinero.add(new PieEntry(12.32f, "Oct."));
-        dinero.add(new PieEntry(25.25f, "Nov."));
-        dinero.add(new PieEntry(10.12f, "Dic."));
-
-        PieDataSet pieDataSet = new PieDataSet(dinero, "");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(16f);
-
-        PieData pieData = new PieData(pieDataSet);
-
-        pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText("Resumen anual");
-        pieChart.animate();*/
-
     }
 
-    public void seleccionar(View _) {
-        //System.out.println(spinner.getSelectedItem().toString());
-        Date actual = new Date();
+    public void seleccionar(View view) {
         selected = spinner.getSelectedItem().toString().toLowerCase();
-        switch(selected) {
-            case "anual":
-                //System.out.println("anual"); -> entre 1 enero del año actual a fecha actual
-                stub.setLayoutResource(R.layout.anual);
-                stub.inflate();
-                break;
-            case "semestral":
-                //System.out.println("semestral"); -> 1 enero - 30 junio, 1 julio - 31 diciembre
-                break;
-            case "trimestral":
-                //System.out.println("trimestral"); ->
-                break;
-            case "mensual":
-                System.out.println("mensual");
-                break;
-            case "personalizado":
-                System.out.println("personalizado");
-                break;
+        getAllTransactionsData(view, selected);
+    }
+
+    public void getAllTransactionsData(View view, String seleccion){
+        db.collection("users")
+                .document(this.user.getEmail())
+                .collection("bankAcounts")
+                .document("cuentaPrincipal")
+                .collection("transactions")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Transaccion transaccion = document.toObject(Transaccion.class);
+                        transacciones.add(transaccion);
+                    }
+                    switch(seleccion) {
+                        case "anual":
+                            anual(view);
+                            break;
+                        case "semestral":
+                            //System.out.println("semestral"); -> 1 enero - 30 junio, 1 julio - 31 diciembre
+                            break;
+                        case "trimestral":
+                            //System.out.println("trimestral"); ->
+                            break;
+                        case "mensual":
+                            System.out.println("mensual");
+                            break;
+                        case "personalizado":
+                            System.out.println("personalizado");
+                            break;
+                    }
+                } else {
+                    Toast.makeText(Graficos.this, "Ha ocurrido un error al conectarse a la base de datos", Toast.LENGTH_LONG).show();
+                    //Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void anual(View view) {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+2"));
+        int year = Calendar.getInstance().get(Calendar.YEAR) - 1;
+        Date dateAfter = new Date();
+        try {
+            DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String dateString = "31-12-".concat(String.valueOf(year));
+            dateAfter = sdf.parse(dateString);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
         }
+        //Date dateAfter = new DateTime(year, Month.DECEMBER.getValue(), 31);
+        Date dateBefore = new Date();
+        for (int i = 0; i < transacciones.size(); i++) {
+            if(transacciones.get(i).getFecha().after(dateAfter) && transacciones.get(i).getFecha().before(dateBefore)) {
+                filteredTransactions.add(transacciones.get(i));
+            }
+        }
+        Intent intent = new Intent(this, Anual.class);
+        startActivity(intent);
     }
 }

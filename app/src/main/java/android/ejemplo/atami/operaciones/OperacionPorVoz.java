@@ -1,11 +1,15 @@
 package android.ejemplo.atami.operaciones;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
+import android.ejemplo.atami.permisos.PermisosMicro;
+import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -19,6 +23,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,11 +35,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Text;
+
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class OperacionPorVoz extends Activity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1000;
@@ -47,12 +59,15 @@ public class OperacionPorVoz extends Activity {
     boolean annadir, retirar, dineroEsCorrecto, categoriaCorrecta;
     String[] categorias;
     String categoriasEnFila, categoriaEscogida;
+    public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.operacion_por_voz);
+        //Comprobamos que tenga permisos de micro
+        checkPermission(Manifest.permission.RECORD_AUDIO,REQUEST_AUDIO_PERMISSION_CODE);
 
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -151,7 +166,9 @@ public class OperacionPorVoz extends Activity {
                             cantidadDinero = Double.parseDouble(mensaje);
                         }
                         for (String categoria : categorias) {
-                            if (mensaje.equals(categoria.toLowerCase(Locale.ROOT))) {
+                            Log.i("categorias", categoria.toLowerCase(Locale.ROOT));
+
+                            if (StringUtils.stripAccents(mensaje.toLowerCase(Locale.ROOT)).equals(categoria.toLowerCase(Locale.ROOT))) {
                                 categoriaCorrecta = true;
                                 categoriaEscogida = mensaje;
                             } else if (mensaje.equals("ropa") || mensaje.equals("calzado")) {
@@ -235,6 +252,7 @@ public class OperacionPorVoz extends Activity {
                 }else{
                     bundle.putString("tipo","annadir");
                 }
+
 
                 intent.putExtras(bundle);
                 startActivity(intent);            }

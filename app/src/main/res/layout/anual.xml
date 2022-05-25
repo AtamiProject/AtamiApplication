@@ -4,23 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".graficos.Graficos">
+    tools:context=".graficos.Anual">
 
-    <!--<com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />-->
-
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="68dp"
-        android:text="anual"
-        android:textSize="30dp"
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="374dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="393dp"
+                android:layout_height="260dp"
+                android:layout_marginTop="5dp"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChartPositive"
+                android:layout_width="393dp"
+                android:layout_height="260dp"
+                android:layout_marginTop="5dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChartNegative"
+                android:layout_width="393dp"
+                android:layout_height="260dp"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
