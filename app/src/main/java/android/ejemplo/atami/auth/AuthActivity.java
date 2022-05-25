@@ -4,10 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.permisos.PermisosAlmacenaje;
 import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
@@ -70,11 +70,8 @@ public class AuthActivity extends AppCompatActivity {
                                 if (complete2.isSuccessful()) {
                                     Map<String, Object> relleno = new HashMap<>();
                                     relleno.put("vacio", "vacio");
-                                    Map<String, Object> totalCuenta = new HashMap<>();
-                                    relleno.put("total", total);
-                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(relleno);
-                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
-                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
+                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document();
+                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(new Cuenta_bancaria(total));
                                     checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                                 }
                             });
