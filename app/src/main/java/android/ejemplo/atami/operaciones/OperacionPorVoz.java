@@ -1,10 +1,14 @@
 package android.ejemplo.atami.operaciones;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
+import android.ejemplo.atami.permisos.PermisosMicro;
+import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -18,6 +22,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,12 +57,15 @@ public class OperacionPorVoz extends Activity {
     boolean annadir, retirar, dineroEsCorrecto, categoriaCorrecta;
     String[] categorias;
     String categoriasEnFila, categoriaEscogida;
+    public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.operacion_por_voz);
+        //Comprobamos que tenga permisos de micro
+        checkPermission(Manifest.permission.RECORD_AUDIO,REQUEST_AUDIO_PERMISSION_CODE);
 
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -279,5 +288,26 @@ public class OperacionPorVoz extends Activity {
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    //Comprobamos que tenga persmiso de micro
+    public void checkPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(OperacionPorVoz.this, permission) == PackageManager.PERMISSION_DENIED) {
+            // Requesting the permission
+            ActivityCompat.requestPermissions(OperacionPorVoz.this, new String[] { permission }, requestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_AUDIO_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(OperacionPorVoz.this, "Micro Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(OperacionPorVoz.this, "Para utilizar esta funcionalidad debes dar permisos de voz", Toast.LENGTH_SHORT).show();
+               finish();
+            }
+        }
     }
 }

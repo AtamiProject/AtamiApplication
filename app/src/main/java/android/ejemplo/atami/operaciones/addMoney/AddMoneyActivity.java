@@ -83,6 +83,8 @@ public class AddMoneyActivity extends Activity {
                             }
                         }, year, month, day);
                 picker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+                //Con esta opcion evitamos que seleccione fechas futuras
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
             }
         });
