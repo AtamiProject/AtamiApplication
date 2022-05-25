@@ -120,17 +120,7 @@ public class TakeOutMoneyActivity extends Activity {
         if (correctData) {
             Transaccion transaccion = new Transaccion((cantidadDinero*-1), fechaFormateada, selectedCategoria, descripcion);
             addTransactionData(transaccion);
-            /*Intent intent = new Intent(this, OperationCorrect.class);
-            bundle = new Bundle();
-            bundle.putString("cantidad", cantidad);
-            bundle.putString("descripcion", descripcion);
-            bundle.putString("fechaNoFormateada", fechaNoFormateada);
-            bundle.putString("selectedCategoria", selectedCategoria);
 
-            //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-            bundle.putString("tipo","quitar");
-            intent.putExtras(bundle);
-            startActivity(intent);*/
         }
     }
 

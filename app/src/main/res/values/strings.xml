@@ -27,6 +27,5 @@
         <item>SEMESTRAL</item>
         <item>TRIMESTRAL</item>
         <item>MENSUAL</item>
-        <item>PERSONALIZADO</item>
     </string-array>
 </resources>
