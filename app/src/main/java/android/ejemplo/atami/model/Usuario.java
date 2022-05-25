@@ -7,17 +7,17 @@ public class Usuario {
     private String apellido;
     private String correo;
     private String password;
-    private String tipo;
+    private boolean premium;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String correo, String password, String tipo) {
+    public Usuario(String nombre, String apellido, String correo, String password, boolean premium) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.password = password;
-        this.tipo = tipo;
+        this.premium = premium;
     }
 
     public String getNombre() {
@@ -36,8 +36,8 @@ public class Usuario {
         return password;
     }
 
-    public String getTipo() {
-        return tipo;
+    public boolean getTipo() {
+        return premium;
     }
 
     public void setNombre(String nombre) {
@@ -56,7 +56,4 @@ public class Usuario {
         this.password = password;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 }

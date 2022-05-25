@@ -54,9 +54,7 @@ public class Perfil extends AppCompatActivity {
 
     public void changePassword(){
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        String emailAddress = "user@example.com";
-
-        auth.sendPasswordResetEmail(emailAddress)
+        auth.sendPasswordResetEmail(user.getEmail())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

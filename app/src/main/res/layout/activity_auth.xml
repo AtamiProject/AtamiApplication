@@ -124,6 +124,23 @@
             android:inputType="textPassword"
             android:minHeight="48dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total de tu cuenta"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Dinero con el que empezar la cuenta"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="20dp" />

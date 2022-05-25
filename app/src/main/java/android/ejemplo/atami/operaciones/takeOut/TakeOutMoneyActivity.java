@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.addMoney.AddMoneyActivity;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
@@ -35,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -120,17 +122,6 @@ public class TakeOutMoneyActivity extends Activity {
         if (correctData) {
             Transaccion transaccion = new Transaccion((cantidadDinero*-1), fechaFormateada, selectedCategoria, descripcion);
             addTransactionData(transaccion);
-            /*Intent intent = new Intent(this, OperationCorrect.class);
-            bundle = new Bundle();
-            bundle.putString("cantidad", cantidad);
-            bundle.putString("descripcion", descripcion);
-            bundle.putString("fechaNoFormateada", fechaNoFormateada);
-            bundle.putString("selectedCategoria", selectedCategoria);
-
-            //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-            bundle.putString("tipo","quitar");
-            intent.putExtras(bundle);
-            startActivity(intent);*/
         }
     }
 
@@ -140,8 +131,7 @@ public class TakeOutMoneyActivity extends Activity {
                 colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-
+                getBankAccountData();
                 bundle = new Bundle();
                 bundle.putString("cantidad", transaccion.getCantidad().toString());
                 bundle.putString("descripcion", transaccion.getDescripcion());
@@ -160,6 +150,31 @@ public class TakeOutMoneyActivity extends Activity {
                 Toast.makeText(TakeOutMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    public void getBankAccountData(){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                updateTotal(cuenta);
+            }
+        });
+    }
+
+    public void updateTotal(Cuenta_bancaria cuenta){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.set(new Cuenta_bancaria(cuenta.getTotal()-cantidadDinero)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.w(TAG, "Error deleting document", e);
+            }
+        });
     }
 }

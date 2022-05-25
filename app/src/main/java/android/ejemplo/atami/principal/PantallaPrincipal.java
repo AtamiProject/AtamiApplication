@@ -38,11 +38,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PantallaPrincipal extends AppCompatActivity {
 
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ListView listViewGastos;
@@ -59,7 +62,7 @@ public class PantallaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_principal);
 
-       listViewGastos = (ListView) findViewById(R.id.gastos);
+        listViewGastos = (ListView) findViewById(R.id.gastos);
         listViewIngresos = (ListView) findViewById(R.id.ingresos);
         textView = (TextView) findViewById(R.id.total);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -120,6 +123,12 @@ public class PantallaPrincipal extends AppCompatActivity {
                     List<String> gastos = new ArrayList<String>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Transaccion transaccion = document.toObject(Transaccion.class);
+                        try {
+                            System.out.println(formatoFecha.parse(transaccion.getFecha().toString()));
+                            transaccion.setFecha(formatoFecha.parse(transaccion.getFecha().toString()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         if(transaccion.getCantidad() >= 0){
                             ingresos.add(transaccion.toString());
                         } else {

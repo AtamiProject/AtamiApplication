@@ -50,34 +50,46 @@ public class AuthActivity extends AppCompatActivity {
             EditText editNombre = findViewById(R.id.nombreEditText);
             EditText editApellido = findViewById(R.id.apellidoEditText);
             EditText editPassword2 = findViewById(R.id.passwordEditText2);
+            EditText editTotal = findViewById(R.id.total);
             String email = editEmail.getText().toString();
             String password = editPassword.getText().toString();
             String nombre = editNombre.getText().toString();
             String apellido = editApellido.getText().toString();
             String password2 = editPassword2.getText().toString();
+            Float total = Float.valueOf(editTotal.getText().toString());
             Map<String, Object> user = new HashMap<>();
             user.put("nombre", nombre);
             user.put("apellido", apellido);
             user.put("email", email);
+            user.put("premium", false);
             if(!email.isEmpty() && !password.isEmpty() && password.equals(password2)){
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
-                    if (complete.isSuccessful()) {
-                        db.collection("users").document(email).set(user).addOnCompleteListener(complete2 -> {
-                            if (complete2.isSuccessful()) {
-                                Map<String, Object> relleno = new HashMap<>();
-                                relleno.put("vacio", "vacio");
-                                Map<String, Object> totalCuenta = new HashMap<>();
-                                relleno.put("total", 0);
-                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(totalCuenta);
-                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
-                                db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
-                                checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-                            }
-                        });
-                    } else {
-                        showAlert();
-                    }
-                });
+                try {
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
+                        if (complete.isSuccessful()) {
+                            db.collection("users").document(email).set(user).addOnCompleteListener(complete2 -> {
+                                if (complete2.isSuccessful()) {
+                                    Map<String, Object> relleno = new HashMap<>();
+                                    relleno.put("vacio", "vacio");
+                                    Map<String, Object> totalCuenta = new HashMap<>();
+                                    relleno.put("total", total);
+                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").set(relleno);
+                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("transactions").document().set(relleno);
+                                    db.collection("users").document(email).collection("bankAcounts").document("cuentaPrincipal").collection("cards").document().set(relleno);
+                                    checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+                                }
+                            });
+                        } else {
+                            showAlert();
+                        }
+                    });
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Error");
+                    builder.setMessage("Ha habido un error con la conexion");
+                    builder.setPositiveButton("Aceptar", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             } else {
                 showAlert();
             }
@@ -107,8 +119,6 @@ public class AuthActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             showHome();
-            //intent = new Intent(this, PantallaPrincipal.class);
-            //startActivity(intent);
         }
     }
 }

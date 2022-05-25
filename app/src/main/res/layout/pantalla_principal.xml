@@ -98,6 +98,18 @@
                     android:textColor="@color/darkRed"
                     android:textSize="40dp" />
 
+                <TextView
+                    android:id="@+id/gastosText"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="28dp"
+                    android:background="@color/white"
+                    android:fontFamily="@font/rhodium_libre"
+                    android:text="Gastos"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/darkRed"
+                    android:textSize="20dp" />
+
                 <ListView
                     android:id="@+id/gastos"
                     android:layout_width="300dp"
@@ -105,7 +117,22 @@
                     android:layout_weight="1"
                     android:background="@drawable/list_borders"
                     android:visibility="invisible"
-                    android:layout_margin="50px" />
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginBottom="20px"
+                    android:layout_marginTop="20px"
+                    />
+
+                <TextView
+                    android:id="@+id/ingresosText"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:background="@color/white"
+                    android:fontFamily="@font/rhodium_libre"
+                    android:text="Ingresos"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/darkRed"
+                    android:textSize="20dp" />
 
                 <ListView
                     android:id="@+id/ingresos"
@@ -113,7 +140,11 @@
                     android:layout_height="200dp"
                     android:layout_weight="1"
                     android:background="@drawable/list_borders"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginBottom="10px"
+                    android:layout_marginTop="20px"/>
 
             </LinearLayout>
 

@@ -3,6 +3,7 @@ package android.ejemplo.atami.operaciones;
 import android.app.Activity;
 import android.content.Intent;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.net.Uri;
@@ -25,18 +26,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class OperacionPorVoz extends Activity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1000;
@@ -225,6 +222,7 @@ public class OperacionPorVoz extends Activity {
 
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                getBankAccountData(tipo);
                 Bundle bundle = new Bundle();
                 bundle.putString("cantidad", String.valueOf(cantidadDinero));
                 bundle.putString("descripcion", "Operacion realizada con comandos de voz :)");
@@ -238,13 +236,39 @@ public class OperacionPorVoz extends Activity {
                     bundle.putString("tipo","annadir");
                 }
 
-
                 intent.putExtras(bundle);
                 startActivity(intent);            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 //TODO
+            }
+        });
+    }
+
+    public void getBankAccountData(String tipo){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                updateTotal(cuenta, tipo);
+            }
+        });
+    }
+
+    public void updateTotal(Cuenta_bancaria cuenta, String tipo){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        double nuevoTotal = cuenta.getTotal()+cantidadDinero;
+        docRef.set(new Cuenta_bancaria((float) (nuevoTotal))).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.w(TAG, "Error deleting document", e);
             }
         });
     }
