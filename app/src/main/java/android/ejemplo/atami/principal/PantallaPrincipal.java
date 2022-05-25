@@ -12,7 +12,6 @@ import android.ejemplo.atami.popUpWindow.PopUpWindowAddMoney;
 import android.ejemplo.atami.popUpWindow.PopUpWindowTakeOut;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.calendario.Calendario;
-import android.ejemplo.atami.cuentas.Cuentas;
 import android.ejemplo.atami.perfil.Perfil;
 import android.ejemplo.atami.premium.Premium;
 import android.os.Bundle;
@@ -93,9 +92,6 @@ public class PantallaPrincipal extends AppCompatActivity {
                 } else if (id == R.id.graficos) {
                     if(drawerLayout.isDrawerOpen(Gravity.LEFT)) drawerLayout.closeDrawer(Gravity.LEFT);
                     openDialog();
-                    /*intent = new Intent(PantallaPrincipal.this, Graficos.class);
-                    startActivity(intent);*/
-
                 } else if (id == R.id.calendario) {
                     if(drawerLayout.isDrawerOpen(Gravity.LEFT)) drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(PantallaPrincipal.this, Calendario.class);
@@ -104,11 +100,11 @@ public class PantallaPrincipal extends AppCompatActivity {
                     if(drawerLayout.isDrawerOpen(Gravity.LEFT)) drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(PantallaPrincipal.this, Premium.class);
                     startActivity(intent);
-                } else if (id == R.id.cuentas) {
+                }/* else if (id == R.id.cuentas) {
                     if(drawerLayout.isDrawerOpen(Gravity.LEFT)) drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(PantallaPrincipal.this, Cuentas.class);
                     startActivity(intent);
-                }
+                }*/
                 //Toast.makeText(PantallaPrincipal.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -142,7 +138,7 @@ public class PantallaPrincipal extends AppCompatActivity {
                             listViewGastos.setVisibility(View.VISIBLE);
                             listViewIngresos.setVisibility(View.VISIBLE);
                         } else {
-                            //TODO
+                            Toast.makeText(PantallaPrincipal.this, "Ha ocurrido un error al conectarse a la base de datos", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

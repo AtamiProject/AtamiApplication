@@ -53,9 +53,7 @@ public class AuthActivity2 extends AppCompatActivity {
             String password = editPassword.getText().toString();
             if(!email.isEmpty() && !password.isEmpty()){
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
-                    Log.e("holaaaaaaaaaaaaaaaaaa","holaaaaaaaaaaaaaaaaaa");
                     if(complete.isSuccessful()){
-                        Log.e("aaaaaaaaa","aaaaaaaaaaaaa");
                         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                         //showHome(complete.getResult().getUser().getEmail(), ProviderType.BASIC);
                     } else {
