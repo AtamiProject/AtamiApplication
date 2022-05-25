@@ -21,9 +21,9 @@
             android:icon="@drawable/ic_baseline_premium_24"
             android:title="Prémium" />
 
-        <item
+        <!--<item
             android:id="@+id/cuentas"
             android:icon="@drawable/ic_baseline_cuentas_24"
-            android:title="Cuentas" />
+            android:title="Cuentas" />-->
     </group>
 </menu>

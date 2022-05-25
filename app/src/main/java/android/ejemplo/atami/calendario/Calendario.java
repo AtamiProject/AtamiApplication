@@ -3,10 +3,9 @@ package android.ejemplo.atami.calendario;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.ejemplo.atami.R;
+import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.modelo.Eventos;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +15,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class Calendario extends AppCompatActivity {
 
@@ -32,6 +37,11 @@ public class Calendario extends AppCompatActivity {
     private boolean found;
     private SimpleDateFormat dateFormat;
     Calendar c;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    private List<Transaccion> transacciones = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +54,9 @@ public class Calendario extends AppCompatActivity {
         dateFormat = new SimpleDateFormat("dd-MM-yyy");
         found = false;
         e = new ArrayList<>();
-        //adding events manually
+        //get events bbdd
+        getAllTransactionsData();
+        /*//adding events manually
         try {
             e.add(new Eventos(dateFormat.parse("07-04-2022"),"Evento1", "Este es el primer evento"));
             e.add(new Eventos(dateFormat.parse("07-04-2022"),"Evento2", "Este es el segundo evento"));
@@ -52,29 +64,51 @@ public class Calendario extends AppCompatActivity {
             e.add(new Eventos(dateFormat.parse("27-04-2022"),"Evento4", "Este es el cuarto evento"));
         } catch (ParseException parseException) {
             parseException.printStackTrace();
-        }
+        }*/
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 Log.i("DATE", dayOfMonth + "-" + month + "-" + year);
-                List<String> newEv = new ArrayList<>();
-                for (Eventos ev: e) {
+                ArrayList<Transaccion> newTransacciones = new ArrayList<>();
+                for (Transaccion t: transacciones) {
 
-                    c.setTime(ev.getFecha()); // yourdate is an object of type Date
+                    c.setTime(t.getFecha()); // yourdate is an object of type Date
                     Log.i("DATE", c.get(Calendar.DAY_OF_MONTH) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.YEAR));
 
                     if(c.get(Calendar.DAY_OF_MONTH) == dayOfMonth && c.get(Calendar.MONTH) == month && c.get(Calendar.YEAR) == year) {
-                        newEv.add(ev.toString());
+                        newTransacciones.add(t);
                     }
                 }
-                listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, newEv));
+                listView.setAdapter(new ListViewAdapter(getApplicationContext(), newTransacciones));
                 listView.setVisibility(View.VISIBLE);
             }
         });
 
     }
 
+    public void getAllTransactionsData(){
+        db.collection("users")
+                .document(this.user.getEmail())
+                .collection("bankAcounts")
+                .document("cuentaPrincipal")
+                .collection("transactions")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            transacciones.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaccion transaccion = document.toObject(Transaccion.class);
+                                transacciones.add(transaccion);
+                            }
+                        } else {
+                            Toast.makeText(Calendario.this, "Ha ocurrido un error al conectarse a la base de datos", Toast.LENGTH_LONG).show();
+                            //Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 
 }
