@@ -42,6 +42,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ import java.util.TimeZone;
 public class PantallaPrincipal extends AppCompatActivity {
 
     ListView listViewGastos;
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     ListView listViewIngresos;
     TextView textView;
     DrawerLayout drawerLayout;
@@ -120,28 +123,34 @@ public class PantallaPrincipal extends AppCompatActivity {
                 .document("cuentaPrincipal")
                 .collection("transactions")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> ingresos = new ArrayList<String>();
-                            List<String> gastos = new ArrayList<String>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Transaccion transaccion = document.toObject(Transaccion.class);
-                                if(transaccion.getCantidad() >= 0){
-                                    ingresos.add(transaccion.toString());
-                                } else {
-                                    gastos.add(transaccion.toString());
-                                }
-                            }
-                            listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, gastos));
-                            listViewIngresos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, ingresos));
-                            listViewGastos.setVisibility(View.VISIBLE);
-                            listViewIngresos.setVisibility(View.VISIBLE);
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> ingresos = new ArrayList<String>();
+                    List<String> gastos = new ArrayList<String>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Transaccion transaccion = document.toObject(Transaccion.class);
+                        try {
+                            System.out.println(formatoFecha.parse(transaccion.getFecha().toString()));
+                            transaccion.setFecha(formatoFecha.parse(transaccion.getFecha().toString()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if(transaccion.getCantidad() >= 0){
+                            ingresos.add(transaccion.toString());
                         } else {
-                            Toast.makeText(PantallaPrincipal.this, "Ha ocurrido un error al conectarse a la base de datos", Toast.LENGTH_LONG).show();
+                            gastos.add(transaccion.toString());
                         }
                     }
-                });
+                    listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, gastos));
+                    listViewIngresos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, ingresos));
+                    listViewGastos.setVisibility(View.VISIBLE);
+                    listViewIngresos.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(PantallaPrincipal.this, "Ha ocurrido un error al conectarse a la base de datos", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public void getBankAccountData() {

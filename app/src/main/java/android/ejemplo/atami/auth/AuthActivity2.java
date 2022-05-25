@@ -11,11 +11,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,13 +49,13 @@ public class AuthActivity2 extends AppCompatActivity {
         setUp();
     }
 
-    private void setUp (){
+    private void setUp() {
         findViewById(R.id.loginButton).setOnClickListener(v -> {
             EditText editEmail = findViewById(R.id.emailEditText);
             EditText editPassword = findViewById(R.id.passwordEditText);
             String email = editEmail.getText().toString();
             String password = editPassword.getText().toString();
-            if(!email.isEmpty() && !password.isEmpty()){
+            if (!email.isEmpty() && !password.isEmpty()) {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
                     if(complete.isSuccessful()){
                         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
@@ -75,7 +79,7 @@ public class AuthActivity2 extends AppCompatActivity {
         dialog.show();
     }
 
-    private void showHome(){
+    private void showHome() {
         Intent homeIntent = new Intent(this, android.ejemplo.atami.principal.PantallaPrincipal.class);
         //homeIntent.putExtra("email",email);
         //homeIntent.putExtra("provider",provider.name());
@@ -92,9 +96,30 @@ public class AuthActivity2 extends AppCompatActivity {
         }
     }
 
-    public void goToRegister(View v){
+    public void goToRegister(View v) {
         Intent regitro = new Intent(this, android.ejemplo.atami.auth.AuthActivity.class);
         startActivity(regitro);
+    }
+
+    public void changePassword() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        EditText editEmail = findViewById(R.id.emailEditText);
+        String email = editEmail.getText().toString();
+        if (!email.isEmpty()) {
+            auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Se te ha enviado un correo para cambiar la contraseña", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            showAlert();
+        }
+
+
     }
 }
 

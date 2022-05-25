@@ -44,11 +44,11 @@ public class PermisosMicro extends AppCompatActivity {
         intent = new Intent(this, PantallaPrincipal.class);
         if (requestCode == REQUEST_AUDIO_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(PermisosMicro.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PermisosMicro.this, "Micro Permission Granted", Toast.LENGTH_SHORT).show();
                 //MOVER SIGUIENTE ACTIVITY
                 startActivity(intent);
             } else {
-                Toast.makeText(PermisosMicro.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PermisosMicro.this, "Micro Permission Denied", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         }

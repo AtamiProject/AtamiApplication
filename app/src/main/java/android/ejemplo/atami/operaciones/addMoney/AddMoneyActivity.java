@@ -7,6 +7,7 @@ import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
+import android.ejemplo.atami.operaciones.takeOut.TakeOutMoneyActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -83,6 +84,8 @@ public class AddMoneyActivity extends Activity {
                             }
                         }, year, month, day);
                 picker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+                //Con esta opcion evitamos que seleccione fechas futuras
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
             }
         });
@@ -152,7 +155,7 @@ public class AddMoneyActivity extends Activity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Log.w(TAG, "Error adding document", e);
+                Toast.makeText(AddMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
     }

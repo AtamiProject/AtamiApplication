@@ -21,7 +21,7 @@ public class Transaccion {
 
     @Override
     public String toString() {
-        return categoria + ": " + cantidad + "$ - " + fecha ;
+        return categoria + ": " + cantidad + "€ - " + fecha ;
     }
 
     public Float getCantidad() {

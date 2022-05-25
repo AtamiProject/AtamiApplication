@@ -60,7 +60,7 @@ public class OperationCorrect extends Activity {
         Intent intent = new Intent(this, PantallaPrincipal.class);
         startActivity(intent);
     }
-
+    //De esta manera solo se puede volver al menu principal con el boton
     @Override
     public void onBackPressed() {}
 }
