@@ -46,15 +46,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class PantallaPrincipal extends AppCompatActivity {
@@ -202,7 +199,7 @@ public class PantallaPrincipal extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
-                textView.setText("Total: " + cuenta.getTotal()+" €");
+                textView.setText("Total: " + cuenta.getTotal() + " €");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
