@@ -39,6 +39,7 @@ import java.util.Locale;
 
 public class EditarTransaccion extends Activity {
     //Todos estos son campos del layout
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     private EditText cantidadA_, ETDescripcion, ETFecha;
     private TextView TVFecha, titulo;
     private DatePickerDialog picker;
@@ -46,8 +47,6 @@ public class EditarTransaccion extends Activity {
     private String cantidad, descripcion, selectedCategoria;
     private Spinner spinCategoria;
     private Bundle bundle;
-
-    final private SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     private FirebaseFirestore db;
     private FirebaseUser user;
 
@@ -90,7 +89,7 @@ public class EditarTransaccion extends Activity {
             //Aqui assignamos los datos de la transaccion en el layout
             cantidadA_.setText(cantidadTransaacion.toString().replace("-",""));
             ETFecha.setText(fechaTransaccion);
-            titulo.setText("Transaccion: " + bundle.getString("tipo"));
+            titulo.setText("Transaccion: " + (bundle.getString("tipo").equals("restar")?"Gasto":"Ingreso"));
             int spinnerPosition = adapter.getPosition(categoriaTransaccion.toUpperCase(Locale.ROOT));
             spinCategoria.setSelection(spinnerPosition);
 

@@ -43,6 +43,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -126,7 +127,7 @@ public class PantallaPrincipal extends AppCompatActivity {
                 bundle.putString("idTransaccion", idsGastos.get(position));
                 bundle.putFloat("cantidadTransaccion", transaccionesGastos.get(position).getCantidad());
                 bundle.putString("descripcion", transaccionesGastos.get(position).getDescripcion());
-                bundle.putString("fechaEnString", transaccionesGastos.get(position).getFecha().toString());
+                bundle.putString("fechaEnString", transaccionesGastos.get(position).getFechaFormateada());
                 bundle.putString("categoria", transaccionesGastos.get(position).getCategoria());
 
                 //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
@@ -143,7 +144,7 @@ public class PantallaPrincipal extends AppCompatActivity {
                 bundle.putString("idTransaccion", idsIngresos.get(position));
                 bundle.putFloat("cantidadTransaccion", transaccionesIngresos.get(position).getCantidad());
                 bundle.putString("descripcion", transaccionesIngresos.get(position).getDescripcion());
-                bundle.putString("fechaEnString", transaccionesIngresos.get(position).getFecha().toString());
+                bundle.putString("fechaEnString", transaccionesIngresos.get(position).getFechaFormateada());
                 bundle.putString("categoria", transaccionesIngresos.get(position).getCategoria());
 
                 //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
@@ -229,7 +230,7 @@ public class PantallaPrincipal extends AppCompatActivity {
                 .document(this.user.getEmail())
                 .collection("bankAcounts")
                 .document("cuentaPrincipal")
-                .collection("transactions")
+                .collection("transactions").orderBy("fecha", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
