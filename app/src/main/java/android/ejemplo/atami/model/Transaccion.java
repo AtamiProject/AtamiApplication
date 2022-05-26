@@ -37,6 +37,8 @@ public class Transaccion {
 
     public Date getFecha() { return fecha; }
 
+    public String getFechaFormateada() { return  formatoFecha.format(fecha); }
+
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
