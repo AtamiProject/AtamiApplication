@@ -42,6 +42,7 @@
         <activity android:name=".calendario.Calendario" />
         <activity android:name=".operaciones.addMoney.AddMoneyActivity" />
         <activity android:name=".operaciones.takeOut.TakeOutMoneyActivity" />
+        <activity android:name=".operaciones.editar.EditarTransaccion" />
         <activity android:name=".operaciones.OperacionPorVoz" />
         <activity android:name=".operaciones.succesfullOperation.OperationCorrect" />
     </application>

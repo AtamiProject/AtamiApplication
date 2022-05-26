@@ -7,7 +7,6 @@ import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
-import android.ejemplo.atami.operaciones.takeOut.TakeOutMoneyActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;

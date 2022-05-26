@@ -8,6 +8,7 @@ import android.ejemplo.atami.graficos.Semestral;
 import android.ejemplo.atami.graficos.Trimestral;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
+import android.ejemplo.atami.operaciones.editar.EditarTransaccion;
 import android.ejemplo.atami.model.Usuario;
 import android.ejemplo.atami.popUpWindow.PopUpWindowAddMoney;
 import android.ejemplo.atami.popUpWindow.PopUpWindowTakeOut;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -52,13 +54,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class PantallaPrincipal extends AppCompatActivity {
 
     ListView listViewGastos;
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     ListView listViewIngresos;
+    List<String> idsIngresos;
+    List<String> idsGastos;
     TextView textView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -68,8 +72,9 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-    private List<Transaccion> transacciones = new ArrayList<>();
+    private List<Transaccion> transacciones;
+    private List<Transaccion> transaccionesIngresos;
+    private List<Transaccion> transaccionesGastos;
     public static List<Transaccion> filteredTransactions = new ArrayList<>();
 
     @Override
@@ -81,6 +86,11 @@ public class PantallaPrincipal extends AppCompatActivity {
         listViewIngresos = (ListView) findViewById(R.id.ingresos);
         textView = (TextView) findViewById(R.id.total);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        idsIngresos = new ArrayList<String>();
+        idsGastos = new ArrayList<String>();
+        transacciones = new ArrayList<>();
+        transaccionesIngresos = new ArrayList<>();
+        transaccionesGastos = new ArrayList<>();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -113,6 +123,40 @@ public class PantallaPrincipal extends AppCompatActivity {
                 return false;
             }
         });
+        listViewGastos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parentView, View childView, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("idTransaccion", idsGastos.get(position));
+                bundle.putFloat("cantidadTransaccion", transaccionesGastos.get(position).getCantidad());
+                bundle.putString("descripcion", transaccionesGastos.get(position).getDescripcion());
+                bundle.putString("fechaEnString", transaccionesGastos.get(position).getFecha().toString());
+                bundle.putString("categoria", transaccionesGastos.get(position).getCategoria());
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo", "restar");
+
+                intent = new Intent(PantallaPrincipal.this, EditarTransaccion.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        listViewIngresos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parentView, View childView, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("idTransaccion", idsIngresos.get(position));
+                bundle.putFloat("cantidadTransaccion", transaccionesIngresos.get(position).getCantidad());
+                bundle.putString("descripcion", transaccionesIngresos.get(position).getDescripcion());
+                bundle.putString("fechaEnString", transaccionesIngresos.get(position).getFecha().toString());
+                bundle.putString("categoria", transaccionesIngresos.get(position).getCategoria());
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo", "annadir");
+
+                intent = new Intent(PantallaPrincipal.this, EditarTransaccion.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         getBankAccountData();
         getAllTransactionsData();
     }
@@ -133,8 +177,12 @@ public class PantallaPrincipal extends AppCompatActivity {
                         Transaccion transaccion = document.toObject(Transaccion.class);
                         if(transaccion.getCantidad() >= 0){
                             ingresos.add(transaccion.toString());
+                            transaccionesIngresos.add(transaccion);
+                            idsIngresos.add(document.getId());
                         } else {
                             gastos.add(transaccion.toString());
+                            transaccionesGastos.add(transaccion);
+                            idsGastos.add(document.getId());
                         }
                     }
                     listViewGastos.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, gastos));
