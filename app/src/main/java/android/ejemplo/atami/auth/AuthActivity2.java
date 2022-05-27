@@ -3,12 +3,9 @@ package android.ejemplo.atami.auth;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.ejemplo.atami.MainActivity;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.permisos.PermisosAlmacenaje;
-import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,9 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuthActivity2 extends AppCompatActivity {
 

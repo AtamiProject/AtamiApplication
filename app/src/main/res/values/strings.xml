@@ -7,10 +7,10 @@
     <string name="descripcion"><u>Descripción:</u></string>
     <string name="operacionCorrecta"><u>La operación se ha realizado correctamente</u></string>
     <string name="ventajasPremium">
-        "\u2022 Dile adiós a la publicidad. \n\u2022 Crea 2 cuentas más que podrás gestionar junto con la actual: \n\t\t\u2022 Añade más tarjetas de crédito. \n\t\t\u2022 Añade cuentas de ahorro. \n\u2022 Recibe notificaciones cuando tus tarjetas esten a punto de caducar. \n\u2022 Y lo más importante: Apoya a nuestro proyecto :)"
+        "Las ventajas por ser premium:\n\n\u2022 Decir adiós a la publicidad. \n\n\u2022 Y lo más importante: Apoya a nuestro proyecto :) \n\n\n Por solo 4,99€"
     </string>
     <string name="graciasPremium"><u>¡GRACIAS POR APOYAR NUESTRA APP!</u></string>
-    <string name="agradecimiento"><u>Hola:</u>"\nMuchas gracias por formar parte de Atami como usuario premium. Te recordamos las ventajas que tienes por ser premium:\u2022 Dile adiós a la publicidad. \n\u2022 Crea 2 cuentas más que podrás gestionar junto con la actual: \n\t\t\u2022 Añade más tarjetas de crédito. \n\t\t\u2022 Añade cuentas de ahorro. \n\u2022 Recibe notificaciones cuando tus tarjetas esten a punto de caducar. \n\u2022 Y lo más importante: Apoya a nuestro proyecto :)"
+    <string name="agradecimiento"><u>Hola:</u>"\nMuchas gracias por formar parte de Atami como usuario premium. Te recordamos las ventajas que tienes por ser premium:\n\n\u2022 Decir adiós a la publicidad. \n\n\u2022 Y lo más importante, gracias por apoyar a nuestro proyecto :)"
     </string>
     <string-array name="categorias">
         <item>CASA</item>
