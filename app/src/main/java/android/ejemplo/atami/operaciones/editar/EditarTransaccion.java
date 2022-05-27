@@ -211,6 +211,68 @@ public class EditarTransaccion extends Activity {
         });
     }
 
+    public void onClickDelete(View _){
+        Intent intent = new Intent(this, OperationCorrect.class);
+        CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
+        colRef.document(idTransaccion).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                updateTotalDelete();
+                bundle = new Bundle();
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo", "delete");
+
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(EditarTransaccion.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void updateTotalDelete() {
+        cantidad = cantidadA_.getText().toString();
+
+        //Aqui transformamos la fecha de String  Date y parseamos el String a Float,
+        // en caso de no funcionar lanza un mensaje toast con el campo incorrecto
+        try {
+            cantidadDinero = Float.valueOf(cantidad);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            String[] message = e.getMessage().split(" ");
+            if (message[1].equals("date:")) {
+                Toast.makeText(getApplicationContext(), "El campo 'Fecha' és incorrecto", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
+            }
+        }
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                if(bundle.getString("tipo").equals("restar")){
+                    cantidadDinero *= -1;
+                }
+                docRef.set(new Cuenta_bancaria(cuenta.getTotal() - (cantidadDinero))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+            }
+        });
+    }
+
     public void updateTotal(Cuenta_bancaria cuenta) {
         DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
         docRef.set(new Cuenta_bancaria(cuenta.getTotal() - (cantidadTransaacion-cantidadDinero))).addOnSuccessListener(new OnSuccessListener<Void>() {

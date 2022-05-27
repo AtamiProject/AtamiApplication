@@ -32,28 +32,35 @@ public class OperationCorrect extends Activity {
         //Aqui assignamos los parametros que le hayamos pasado a la activity
         Bundle bundle = getIntent().getExtras();
         //En caso de que no esten vacios //excepto descripcion// cojemos los valores
-        if(bundle.getString("cantidad")!= null && bundle.getString("fechaNoFormateada")!= null && bundle.getString("selectedCategoria")!= null ) {
-            Scantidad = bundle.getString("cantidad");
-            fechaNoFormateada= bundle.getString("fechaNoFormateada");
-            selectedCategoria = bundle.getString("selectedCategoria");
-            descrpicion = bundle.getString("descripcion");
-            detalles.setText("Se han añadido " +Scantidad+"€ a fecha del "+fechaNoFormateada+" en la categoria de "+selectedCategoria+".");
-            if(bundle.getString("tipo").equals("annadir")){
-                detalles.setText("Se ha" +
-                        "n añadido "+Scantidad+"€ a fecha de "+fechaNoFormateada+" en la categoria: "+selectedCategoria);
-            }else if(bundle.getString("tipo").equals("quitar")){
-                detalles.setText("Se ha" +
-                        "n extraido "+Scantidad+"€ a fecha de "+fechaNoFormateada+" de la categoria: "+selectedCategoria);
-            }if(descrpicion !=null){
-                TVDescripcion.setText(descrpicion);
-            }else{
-                TVDescripcion.setText("Sin descricpión");
-            }
-        }else{
-            detalles.setText(bundle.getString("cantidad")+" "+ bundle.getString("fechaNoFormateada")+" "+bundle.getString("selectedCategoria"));
-            TVDescripcion.setText("afsaf");
-        }
+        String h = bundle.getString("tipo");
+        if(bundle.getString("tipo") != null && bundle.getString("tipo").equals("delete")) {
+            detalles.setText("La transacacción ha sido borrada correctamente");
+            TVDescripcion.setVisibility(View.INVISIBLE);
+        } else {
+            if (bundle.getString("cantidad") != null && bundle.getString("fechaNoFormateada") != null && bundle.getString("selectedCategoria") != null) {
+                Scantidad = bundle.getString("cantidad");
+                fechaNoFormateada = bundle.getString("fechaNoFormateada");
+                selectedCategoria = bundle.getString("selectedCategoria");
+                descrpicion = bundle.getString("descripcion");
+                detalles.setText("Se han añadido " + Scantidad + "€ a fecha del " + fechaNoFormateada + " en la categoria de " + selectedCategoria + ".");
+                if (bundle.getString("tipo").equals("annadir")) {
+                    detalles.setText("Se ha" +
+                            "n añadido " + Scantidad + "€ a fecha de " + fechaNoFormateada + " en la categoria: " + selectedCategoria);
+                } else if (bundle.getString("tipo").equals("quitar")) {
+                    detalles.setText("Se ha" +
+                            "n extraido " + Scantidad + "€ a fecha de " + fechaNoFormateada + " de la categoria: " + selectedCategoria);
+                }
+                if (descrpicion != null) {
+                    TVDescripcion.setText(descrpicion);
+                } else {
+                    TVDescripcion.setText("Sin descricpión");
+                }
 
+            } else {
+                detalles.setText(bundle.getString("cantidad") + " " + bundle.getString("fechaNoFormateada") + " " + bundle.getString("selectedCategoria"));
+                TVDescripcion.setText("afsaf");
+            }
+        }
     }
 
     public void goToPantallaPrincipal(View _) {

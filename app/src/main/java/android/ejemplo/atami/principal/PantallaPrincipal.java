@@ -165,6 +165,7 @@ public class PantallaPrincipal extends AppCompatActivity {
                 .collection("bankAcounts")
                 .document("cuentaPrincipal")
                 .collection("transactions")
+                .orderBy("fecha", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

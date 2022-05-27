@@ -32,10 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="88dp"
+            android:layout_marginBottom="100dp"
             android:backgroundTint="#44BF66"
             android:onClick="addMoneyOnClick"
-            android:src="@drawable/ic_baseline_attach_money_24"
+            android:src="@drawable/ic_baseline_add_24"
+
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -48,11 +49,13 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#D43939"
-            android:src="@drawable/ic_baseline_money_off_24"
+            android:src="@drawable/ic_baseline_remove_24"
             app:fabSize="normal"
             android:onClick="takeOutMoneyOnClick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+        <!--android:src="@drawable/ic_baseline_money_off_24"
+         android:src="@drawable/ic_baseline_attach_money_24"-->
 
         <TextView
             android:id="@+id/atami"
