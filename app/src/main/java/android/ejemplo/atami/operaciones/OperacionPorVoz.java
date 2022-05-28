@@ -8,6 +8,7 @@ import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
+import android.ejemplo.atami.operaciones.takeOut.TakeOutMoneyActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -213,7 +214,6 @@ public class OperacionPorVoz extends Activity {
     }
 
     public void addTransactionData(String tipo) {
-        Intent intent = new Intent(this, OperationCorrect.class);
         long ahora = System.currentTimeMillis();
         Date fechaActual = new Date(ahora);
         String fechaActualString = formatoFecha.format(fechaActual);
@@ -238,6 +238,41 @@ public class OperacionPorVoz extends Activity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 getBankAccountData(tipo);
+         }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(OperacionPorVoz.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getBankAccountData(String tipo){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                updateTotal(cuenta, tipo);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(OperacionPorVoz.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void updateTotal(Cuenta_bancaria cuenta, String tipo){
+        long ahora = System.currentTimeMillis();
+        Date fechaActual = new Date(ahora);
+        String fechaActualString = formatoFecha.format(fechaActual);
+        Intent intent = new Intent(this, OperationCorrect.class);
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        double nuevoTotal = cuenta.getTotal()+cantidadDinero;
+        docRef.set(new Cuenta_bancaria((float) (nuevoTotal))).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
                 Bundle bundle = new Bundle();
                 bundle.putString("cantidad", String.valueOf(cantidadDinero));
                 bundle.putString("descripcion", "Operacion realizada con comandos de voz :)");
@@ -251,40 +286,13 @@ public class OperacionPorVoz extends Activity {
                     bundle.putString("tipo","annadir");
                 }
 
-
                 intent.putExtras(bundle);
-                startActivity(intent);            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //TODO
-            }
-        });
-    }
-
-    public void getBankAccountData(String tipo){
-        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
-                updateTotal(cuenta, tipo);
-            }
-        });
-    }
-
-    public void updateTotal(Cuenta_bancaria cuenta, String tipo){
-        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
-        double nuevoTotal = cuenta.getTotal()+cantidadDinero;
-        docRef.set(new Cuenta_bancaria((float) (nuevoTotal))).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Log.w(TAG, "Error deleting document", e);
+                Toast.makeText(OperacionPorVoz.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
     }

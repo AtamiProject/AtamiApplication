@@ -108,6 +108,7 @@
         android:background="@drawable/buttonshapemoney"
         android:letterSpacing="0.1"
         android:text="Cambiar contraseña"
+        android:onClick="changePassword"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16dp"

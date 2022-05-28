@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.auth.AuthActivity2;
 import android.ejemplo.atami.model.Usuario;
+import android.ejemplo.atami.operaciones.takeOut.TakeOutMoneyActivity;
 import android.ejemplo.atami.principal.PantallaPrincipal;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,11 +50,16 @@ public class Perfil extends AppCompatActivity {
                 apellidos.setText(usuario.getApellido());
                 correo.setText(user.getEmail());
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Perfil.this, "Ha ocurrido un error recuperando los datos", Toast.LENGTH_LONG).show();
+            }
         });
 
     }
 
-    public void changePassword(){
+    public void changePassword(View _){
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(user.getEmail())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -60,6 +67,8 @@ public class Perfil extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),"Se te ha enviado un correo para cambiar la contraseña" , Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Perfil.this, "Ha ocurrido un error conectando con la cuenta", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

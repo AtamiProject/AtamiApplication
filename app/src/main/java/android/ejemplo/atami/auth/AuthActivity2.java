@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.permisos.PermisosAlmacenaje;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ public class AuthActivity2 extends AppCompatActivity {
             String password = editPassword.getText().toString();
             if (!email.isEmpty() && !password.isEmpty()) {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(complete -> {
-                    if(complete.isSuccessful()){
+                    if (complete.isSuccessful()) {
                         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                         //showHome(complete.getResult().getUser().getEmail(), ProviderType.BASIC);
                     } else {
@@ -59,7 +60,7 @@ public class AuthActivity2 extends AppCompatActivity {
                     }
                 });
             } else {
-                showAlert();
+                Toast.makeText(AuthActivity2.this, "Los datos estan incompletos", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -67,7 +68,7 @@ public class AuthActivity2 extends AppCompatActivity {
     private void showAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Error");
-        builder.setMessage("Se ha producido un error autenticando el usuario");
+        builder.setMessage("Se ha producido un error autenticando el usuario, puede que las credenciales sean erroneas");
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -95,7 +96,7 @@ public class AuthActivity2 extends AppCompatActivity {
         startActivity(regitro);
     }
 
-    public void changePassword() {
+    public void changePassword(View _) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         EditText editEmail = findViewById(R.id.emailEditText);
         String email = editEmail.getText().toString();
@@ -112,8 +113,12 @@ public class AuthActivity2 extends AppCompatActivity {
         } else {
             showAlert();
         }
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(this, AuthActivity2.class);
+        startActivity(a);
     }
 }
 

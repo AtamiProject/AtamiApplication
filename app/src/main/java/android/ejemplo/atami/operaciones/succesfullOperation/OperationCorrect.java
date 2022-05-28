@@ -35,7 +35,7 @@ public class OperationCorrect extends Activity {
         String h = bundle.getString("tipo");
         if(bundle.getString("tipo") != null && bundle.getString("tipo").equals("delete")) {
             detalles.setText("La transacacción ha sido borrada correctamente");
-            TVDescripcion.setVisibility(View.INVISIBLE);
+            findViewById(R.id.TitleDescrpicon).setVisibility(View.INVISIBLE);
         } else {
             if (bundle.getString("cantidad") != null && bundle.getString("fechaNoFormateada") != null && bundle.getString("selectedCategoria") != null) {
                 Scantidad = bundle.getString("cantidad");

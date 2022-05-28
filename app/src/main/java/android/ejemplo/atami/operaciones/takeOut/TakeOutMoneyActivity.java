@@ -121,7 +121,12 @@ public class TakeOutMoneyActivity extends Activity {
         //En caso de que todos los datos sean correctos procedemos a abrir la Activity "operacionCorrecta"
         if (correctData) {
             Transaccion transaccion = new Transaccion((cantidadDinero*-1), fechaFormateada, selectedCategoria, descripcion);
-            addTransactionData(transaccion);
+            try{
+                addTransactionData(transaccion);
+            } catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(TakeOutMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -146,7 +151,6 @@ public class TakeOutMoneyActivity extends Activity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Log.w(TAG, "Error adding document", e);
                 Toast.makeText(TakeOutMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
@@ -159,6 +163,11 @@ public class TakeOutMoneyActivity extends Activity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
                 updateTotal(cuenta);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(TakeOutMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -173,7 +182,7 @@ public class TakeOutMoneyActivity extends Activity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Log.w(TAG, "Error deleting document", e);
+                Toast.makeText(TakeOutMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
     }

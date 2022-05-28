@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:background="@color/white"
+            android:onClick="changePassword"
             android:text="¿Has olvidado la contraseña?"
             android:textColor="@color/darkRed"
             tools:ignore="TextContrastCheck" />

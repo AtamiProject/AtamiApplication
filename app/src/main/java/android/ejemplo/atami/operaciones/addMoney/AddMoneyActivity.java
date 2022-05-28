@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.ejemplo.atami.R;
 import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
+import android.ejemplo.atami.operaciones.editar.EditarTransaccion;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
 import android.os.Bundle;
 import android.text.InputType;
@@ -124,21 +125,50 @@ public class AddMoneyActivity extends Activity {
             } catch (ParseException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Algo no ha ido como se esperaba", Toast.LENGTH_SHORT).show();
-
             }
         }
 
     }
 
     public void addTransactionData(Date fechaFormateada, String fechaNoFormateada) throws ParseException {
-        Intent intent = new Intent(this, OperationCorrect.class);
         Transaccion transaccion = new Transaccion(cantidadDinero, fechaFormateada, selectedCategoria, descripcion);
         CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
         colRef.add(transaccion).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                getBankAccountData();
+                getBankAccountData(fechaNoFormateada);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getBankAccountData(String fechaNoFormateada){
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
+                updateTotal(cuenta, fechaNoFormateada);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error al realizar la operación", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateTotal(Cuenta_bancaria cuenta, String fechaNoFormateada){
+        Intent intent = new Intent(this, OperationCorrect.class);
+        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
+        docRef.set(new Cuenta_bancaria(cuenta.getTotal()+cantidadDinero)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
                 bundle = new Bundle();
                 bundle.putString("cantidad", cantidad);
                 bundle.putString("descripcion", descripcion);
@@ -155,32 +185,6 @@ public class AddMoneyActivity extends Activity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(AddMoneyActivity.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public void getBankAccountData(){
-        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
-                updateTotal(cuenta);
-            }
-        });
-    }
-
-    public void updateTotal(Cuenta_bancaria cuenta){
-        DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
-        docRef.set(new Cuenta_bancaria(cuenta.getTotal()+cantidadDinero)).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                //Log.d(TAG, "DocumentSnapshot successfully deleted!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                    //Log.w(TAG, "Error deleting document", e);
             }
         });
     }

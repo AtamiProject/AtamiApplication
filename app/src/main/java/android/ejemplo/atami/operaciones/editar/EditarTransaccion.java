@@ -9,6 +9,7 @@ import android.ejemplo.atami.model.Cuenta_bancaria;
 import android.ejemplo.atami.model.Transaccion;
 import android.ejemplo.atami.operaciones.addMoney.AddMoneyActivity;
 import android.ejemplo.atami.operaciones.succesfullOperation.OperationCorrect;
+import android.ejemplo.atami.operaciones.takeOut.TakeOutMoneyActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -163,13 +164,11 @@ public class EditarTransaccion extends Activity {
             } catch (ParseException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Algo no ha ido como se esperaba", Toast.LENGTH_SHORT).show();
-
             }
         }
     }
 
     public void addTransactionData(Date fechaFormateada, String fechaNoFormateada) throws ParseException {
-        Intent intent = new Intent(this, OperationCorrect.class);
         if(bundle.getString("tipo").equals("restar")){
             cantidadDinero *= -1;
         }
@@ -179,18 +178,7 @@ public class EditarTransaccion extends Activity {
 
             @Override
             public void onSuccess(Void aVoid) {
-                getBankAccountData();
-                bundle = new Bundle();
-                bundle.putString("cantidad", cantidad);
-                bundle.putString("descripcion", descripcion);
-                bundle.putString("fechaNoFormateada", fechaNoFormateada);
-                bundle.putString("selectedCategoria", selectedCategoria);
-
-                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-                bundle.putString("tipo", "annadir");
-
-                intent.putExtras(bundle);
-                startActivity(intent);
+                getBankAccountData(fechaNoFormateada);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -200,38 +188,36 @@ public class EditarTransaccion extends Activity {
         });
     }
 
-    public void getBankAccountData() {
+    public void getBankAccountData(String fechaNoFormateada) {
         DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
-                updateTotal(cuenta);
+                updateTotal(cuenta, fechaNoFormateada);
             }
         });
     }
 
     public void onClickDelete(View _){
-        Intent intent = new Intent(this, OperationCorrect.class);
-        CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
-        colRef.document(idTransaccion).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                updateTotalDelete();
-                bundle = new Bundle();
+        try{
+            CollectionReference colRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal").collection("transactions");
+            colRef.document(idTransaccion).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    updateTotalDelete();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(EditarTransaccion.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(EditarTransaccion.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
+        }
 
-                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
-                bundle.putString("tipo", "delete");
-
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EditarTransaccion.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     public void updateTotalDelete() {
@@ -250,10 +236,12 @@ public class EditarTransaccion extends Activity {
                 Toast.makeText(getApplicationContext(), "El campo 'Cantidad' es incorrecto", Toast.LENGTH_SHORT).show();
             }
         }
+        Intent intent = new Intent(this, OperationCorrect.class);
         DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                 Cuenta_bancaria cuenta = documentSnapshot.toObject(Cuenta_bancaria.class);
                 if(bundle.getString("tipo").equals("restar")){
                     cantidadDinero *= -1;
@@ -261,29 +249,46 @@ public class EditarTransaccion extends Activity {
                 docRef.set(new Cuenta_bancaria(cuenta.getTotal() - (cantidadDinero))).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        bundle = new Bundle();
+
+                        //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                        bundle.putString("tipo", "delete");
+
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //Log.w(TAG, "Error deleting document", e);
+                        Toast.makeText(EditarTransaccion.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
                     }
                 });
             }
         });
     }
 
-    public void updateTotal(Cuenta_bancaria cuenta) {
+    public void updateTotal(Cuenta_bancaria cuenta, String fechaNoFormateada) {
+        Intent intent = new Intent(this, OperationCorrect.class);
         DocumentReference docRef = db.collection("users").document(this.user.getEmail()).collection("bankAcounts").document("cuentaPrincipal");
         docRef.set(new Cuenta_bancaria(cuenta.getTotal() - (cantidadTransaacion-cantidadDinero))).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                //Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                bundle = new Bundle();
+                bundle.putString("cantidad", cantidad);
+                bundle.putString("descripcion", descripcion);
+                bundle.putString("fechaNoFormateada", fechaNoFormateada);
+                bundle.putString("selectedCategoria", selectedCategoria);
+
+                //Este putString sirve para diferenciar si la informacion vendrá de una operacion de quitar o annadir dinero
+                bundle.putString("tipo", "annadir");
+
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Log.w(TAG, "Error deleting document", e);
+                Toast.makeText(EditarTransaccion.this, "Ha ocurrido un error al realizar la operación", Toast.LENGTH_LONG).show();
             }
         });
     }
